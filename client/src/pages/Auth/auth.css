@@ -1,0 +1,255 @@
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.auth-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.auth-header h2 {
+  color: #333;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.auth-header p {
+  color: #666;
+  font-size: 14px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.form-group input {
+  padding: 12px 16px;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background-color: #f8f9fa;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #667eea;
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-group input::placeholder {
+  color: #999;
+}
+
+.auth-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.auth-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+.auth-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid #e1e5e9;
+}
+
+.auth-footer p {
+  color: #666;
+  font-size: 14px;
+}
+
+.auth-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 5px;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+.error-message {
+  background-color: #fee;
+  color: #c33;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #fcc;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 10px;
+  }
+  
+  .auth-card {
+    padding: 30px 20px;
+  }
+  
+  .auth-header h2 {
+    font-size: 24px;
+  }
+}
+
+/* ===== DARK MODE AUTH STYLES ===== */
+.dark-mode .auth-container {
+  background: var(--gradient-primary, linear-gradient(135deg, #8b9cf7 0%, #9d7cc4 100%));
+  min-height: 100vh;
+}
+
+/* Mantém o card branco no dark mode */
+.dark-mode .auth-card {
+  background: white !important;
+  border: 1px solid #e1e5e9;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.dark-mode .auth-header h2 {
+  color: #333 !important;
+}
+
+.dark-mode .auth-header p {
+  color: #666 !important;
+}
+
+.dark-mode .form-group label {
+  color: #333 !important;
+}
+
+.dark-mode .form-group input {
+  background-color: #f8f9fa !important;
+  border: 2px solid #e1e5e9 !important;
+  color: #333 !important;
+}
+
+.dark-mode .form-group input:focus {
+  border-color: #667eea !important;
+  background-color: white !important;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+}
+
+.dark-mode .form-group input::placeholder {
+  color: #999 !important;
+}
+
+.dark-mode .auth-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white;
+  border: none;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.dark-mode .auth-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3) !important;
+}
+
+.dark-mode .auth-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.dark-mode .auth-footer {
+  border-top: 1px solid #e1e5e9 !important;
+}
+
+.dark-mode .auth-footer p {
+  color: #666 !important;
+}
+
+.dark-mode .auth-link {
+  color: #667eea !important;
+}
+
+.dark-mode .auth-link:hover {
+  color: #5a6fd8 !important;
+  text-decoration: underline;
+}
+
+.dark-mode .error-message {
+  background-color: #fee !important;
+  border: 1px solid #fcc !important;
+  color: #c33 !important;
+}
+
+.dark-mode .success-message {
+  background-color: #efe !important;
+  border: 1px solid #cfc !important;
+  color: #3c3 !important;
+}
+
+/* Remove efeitos visuais específicos do dark mode para manter o card branco */
+.dark-mode .auth-card::before {
+  display: none;
+}
+
+/* Animação mantida */
+.dark-mode .auth-card {
+  animation: slideUp 0.5s ease-out;
+}
+
