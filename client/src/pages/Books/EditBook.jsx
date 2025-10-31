@@ -13,7 +13,11 @@ const EditBook = () => {
     author: '',
     no_of_pages: '',
     published_at: '',
-    current_page: '0'
+    current_page: '0',
+    genre: '',
+    notes: '',
+    start_date: '',
+    finish_date: ''
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -35,8 +39,12 @@ const EditBook = () => {
         title: book.title,
         author: book.author,
         no_of_pages: book.no_of_pages.toString(),
-        published_at: book.published_at, // Já vem formatado do backend
-        current_page: book.current_page.toString()
+        published_at: book.published_at,
+        current_page: book.current_page.toString(),
+        genre: book.genre || '',
+        notes: book.notes || '',
+        start_date: book.start_date || '',
+        finish_date: book.finish_date || ''
       });
     } catch (error) {
       console.error('Erro ao buscar livro:', error);
@@ -185,6 +193,75 @@ const EditBook = () => {
             />
           </div>
 
+          <div className="form-group">
+            <label htmlFor="genre">Gênero</label>
+            <select
+              id="genre"
+              name="genre"
+              value={formData.genre}
+              onChange={handleChange}
+            >
+              <option value="">Selecione um gênero</option>
+              <option value="Ficção">Ficção</option>
+              <option value="Não-Ficção">Não-Ficção</option>
+              <option value="Romance">Romance</option>
+              <option value="Fantasia">Fantasia</option>
+              <option value="Ficção Científica">Ficção Científica</option>
+              <option value="Suspense/Thriller">Suspense/Thriller</option>
+              <option value="Terror">Terror</option>
+              <option value="Mistério">Mistério</option>
+              <option value="Aventura">Aventura</option>
+              <option value="Biografia">Biografia</option>
+              <option value="História">História</option>
+              <option value="Autoajuda">Autoajuda</option>
+              <option value="Técnico">Técnico</option>
+              <option value="Filosofia">Filosofia</option>
+              <option value="Poesia">Poesia</option>
+              <option value="Infantil">Infantil</option>
+              <option value="HQ/Mangá">HQ/Mangá</option>
+              <option value="Outro">Outro</option>
+            </select>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="start_date">Data de Início</label>
+              <input
+                id="start_date"
+                type="date"
+                name="start_date"
+                value={formData.start_date}
+                onChange={handleChange}
+                max={new Date().toISOString().split('T')[0]}
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="finish_date">Data de Conclusão</label>
+              <input
+                id="finish_date"
+                type="date"
+                name="finish_date"
+                value={formData.finish_date}
+                onChange={handleChange}
+                max={new Date().toISOString().split('T')[0]}
+                min={formData.start_date || undefined}
+              />
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="notes">Notas e Anotações</label>
+            <textarea
+              id="notes"
+              name="notes"
+              value={formData.notes}
+              onChange={handleChange}
+              placeholder="Suas impressões, citações favoritas, etc..."
+              rows="4"
+            />
+          </div>
+
           {/* Preview do Progresso */}
           {formData.no_of_pages && (
             <div className="progress-preview">
@@ -223,11 +300,12 @@ const EditBook = () => {
             </button>
             <button
               type="button"
-              className="btn-cancel"
-              onClick={() => navigate('/books')}
+              className="btn-close"
+              onClick={() => window.location.href = '/books'}
               disabled={saving}
+              title="Fechar"
             >
-              ✕ Cancelar
+              ✕
             </button>
           </div>
         </form>

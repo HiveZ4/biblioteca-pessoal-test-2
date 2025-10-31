@@ -25,21 +25,6 @@
   border-color: #3B82F6;
 }
 
-.btn-add {
-  padding: 0.75rem 1.5rem;
-  background: #10B981;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.btn-add:hover {
-  background: #059669;
-}
-
 .loading,
 .empty {
   text-align: center;
@@ -135,6 +120,61 @@
   color: #ffffff;
   margin: 0.3rem 0;
   font-weight: 500;
+}
+
+/* Seção de Notas - Expansível */
+.notes-section {
+  background: #0d0d0d;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border: 1px solid #2d2d2d;
+}
+
+.notes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.notes-header:hover {
+  opacity: 0.8;
+}
+
+.notes-header strong {
+  color: #ffffff;
+  font-size: 0.85rem;
+}
+
+.notes-toggle {
+  color: #3B82F6;
+  font-size: 0.8rem;
+  transition: transform 0.2s;
+}
+
+.notes-text {
+  color: #d1d5db;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 0.75rem 0 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid #2d2d2d;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 500px;
+  }
 }
 
 /* Sistema de Avaliação por Estrelas */
@@ -354,10 +394,6 @@
 
   .search-section {
     flex-direction: column;
-  }
-
-  .btn-add {
-    width: 100%;
   }
 }
 

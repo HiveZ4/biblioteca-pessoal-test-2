@@ -30,7 +30,9 @@ exports.getBooks = async (req, res) => {
       progress: book.no_of_pages > 0 
         ? Math.round((book.current_page / book.no_of_pages) * 100) 
         : 0,
-      published_at: book.published_at.toISOString().split('T')[0] // Formato: YYYY-MM-DD
+      published_at: book.published_at.toISOString().split('T')[0],
+      start_date: book.start_date ? book.start_date.toISOString().split('T')[0] : null,
+      finish_date: book.finish_date ? book.finish_date.toISOString().split('T')[0] : null
     }));
 
     res.json(booksWithProgress);
@@ -43,7 +45,17 @@ exports.getBooks = async (req, res) => {
 // Adicionar novo livro
 exports.addBook = async (req, res) => {
   try {
-    const { title, author, no_of_pages, published_at, current_page = 0 } = req.body;
+    const { 
+      title, 
+      author, 
+      no_of_pages, 
+      published_at, 
+      current_page = 0,
+      genre = null,
+      notes = null,
+      start_date = null,
+      finish_date = null
+    } = req.body;
     const userId = req.user.id;
 
     // Validações
@@ -66,6 +78,10 @@ exports.addBook = async (req, res) => {
         no_of_pages: parseInt(no_of_pages),
         current_page: parseInt(current_page),
         published_at: formatDate(published_at),
+        genre,
+        notes,
+        start_date: start_date ? formatDate(start_date) : null,
+        finish_date: finish_date ? formatDate(finish_date) : null,
         status,
         user_id: userId
       }
@@ -74,7 +90,9 @@ exports.addBook = async (req, res) => {
     res.status(201).json({
       ...book,
       progress: Math.round((book.current_page / book.no_of_pages) * 100),
-      published_at: book.published_at.toISOString().split('T')[0]
+      published_at: book.published_at.toISOString().split('T')[0],
+      start_date: book.start_date ? book.start_date.toISOString().split('T')[0] : null,
+      finish_date: book.finish_date ? book.finish_date.toISOString().split('T')[0] : null
     });
   } catch (error) {
     console.error('Erro ao adicionar livro:', error);
@@ -114,7 +132,17 @@ exports.getBook = async (req, res) => {
 exports.updateBook = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, author, no_of_pages, published_at, current_page } = req.body;
+    const { 
+      title, 
+      author, 
+      no_of_pages, 
+      published_at, 
+      current_page,
+      genre,
+      notes,
+      start_date,
+      finish_date
+    } = req.body;
     const userId = req.user.id;
 
     // Verificar se o livro pertence ao usuário
@@ -147,6 +175,10 @@ exports.updateBook = async (req, res) => {
         no_of_pages: parseInt(no_of_pages),
         current_page: parseInt(finalCurrentPage),
         published_at: formatDate(published_at),
+        genre: genre !== undefined ? genre : existingBook.genre,
+        notes: notes !== undefined ? notes : existingBook.notes,
+        start_date: start_date !== undefined ? (start_date ? formatDate(start_date) : null) : existingBook.start_date,
+        finish_date: finish_date !== undefined ? (finish_date ? formatDate(finish_date) : null) : existingBook.finish_date,
         status
       }
     });
@@ -154,7 +186,9 @@ exports.updateBook = async (req, res) => {
     res.json({
       ...book,
       progress: Math.round((book.current_page / book.no_of_pages) * 100),
-      published_at: book.published_at.toISOString().split('T')[0]
+      published_at: book.published_at.toISOString().split('T')[0],
+      start_date: book.start_date ? book.start_date.toISOString().split('T')[0] : null,
+      finish_date: book.finish_date ? book.finish_date.toISOString().split('T')[0] : null
     });
   } catch (error) {
     console.error('Erro ao atualizar livro:', error);

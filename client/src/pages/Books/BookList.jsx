@@ -1,3 +1,4 @@
+// client/src/pages/BookList.jsx - Versão adaptada ao seu layout
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './BookList.css';
@@ -12,6 +13,14 @@ const BookList = () => {
   const [tempPage, setTempPage] = useState('');
   const [updatingProgress, setUpdatingProgress] = useState(false);
   const [updatingRating, setUpdatingRating] = useState(null);
+  const [expandedNotes, setExpandedNotes] = useState({});
+
+  const toggleNotes = (bookId) => {
+    setExpandedNotes(prev => ({
+      ...prev,
+      [bookId]: !prev[bookId]
+    }));
+  };
 
   useEffect(() => {
     fetchBooks();
@@ -134,7 +143,8 @@ const BookList = () => {
 
   const filteredBooks = books.filter(book =>
     book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    book.author.toLowerCase().includes(searchTerm.toLowerCase())
+    book.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (book.genre && book.genre.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   if (loading) {
@@ -147,7 +157,7 @@ const BookList = () => {
       <div className="search-section">
         <input
           type="text"
-          placeholder="🔍 Buscar por título ou autor..."
+          placeholder="🔍 Buscar por título, autor ou gênero..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="search-input"
@@ -186,9 +196,36 @@ const BookList = () => {
 
               {/* Informações */}
               <div className="book-info-compact">
+                {book.genre && (
+                  <p>🎭 Gênero: {book.genre}</p>
+                )}
                 <p>📖 Páginas: {book.no_of_pages}</p>
                 <p>📅 Publicado: {formatDate(book.published_at)}</p>
+                {book.start_date && (
+                  <p>🚀 Iniciado: {formatDate(book.start_date)}</p>
+                )}
+                {book.finish_date && (
+                  <p>🏁 Concluído: {formatDate(book.finish_date)}</p>
+                )}
               </div>
+
+              {/* Notas - Sempre visível com expand/collapse */}
+              {book.notes && (
+                <div className="notes-section">
+                  <div 
+                    className="notes-header"
+                    onClick={() => toggleNotes(book.id)}
+                  >
+                    <strong>📝 Notas</strong>
+                    <span className="notes-toggle">
+                      {expandedNotes[book.id] ? '▼' : '▶'}
+                    </span>
+                  </div>
+                  {expandedNotes[book.id] && (
+                    <p className="notes-text">{book.notes}</p>
+                  )}
+                </div>
+              )}
 
               {/* Sistema de Avaliação por Estrelas */}
               <div className="rating-container">
