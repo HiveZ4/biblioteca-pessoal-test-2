@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
-const { PrismaClient } = require('../generated/prisma');
-const { generateToken } = require('../middleware/auth');
+const { PrismaClient } = require('@prisma/client');
+const { generateToken } = require('../middleware/authMiddleware');
 
 const prisma = new PrismaClient();
 

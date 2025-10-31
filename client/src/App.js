@@ -5,7 +5,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar/Navbar';
 import Home from './pages/Home/Home';
-import Books from './pages/Books/Books';
+import Books from './pages/Books/BookList';
 import AddBook from './pages/Books/AddBook';
 import EditBook from './pages/Books/EditBook';
 import Login from './pages/Auth/Login';

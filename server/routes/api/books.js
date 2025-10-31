@@ -1,25 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const booksController = require('../../controllers/booksController');
-const { authenticateToken } = require('../../middleware/auth');
+const bookController = require('../../controllers/bookController');
+const { authenticateToken } = require('../../middleware/authMiddleware');
 
-// Todas as rotas de livros agora requerem autenticação
+// Todas as rotas requerem autenticação
 router.use(authenticateToken);
 
-// GET /api/books - Obter todos os livros do usuário logado
-router.get('/', booksController.getAllBooks);
+// Rotas CRUD
+router.get('/', bookController.getBooks);
+router.post('/addBook', bookController.addBook);
+router.get('/editBook/:id', bookController.getBook);
+router.put('/editBook/:id', bookController.updateBook);
+router.delete('/:id', bookController.deleteBook);
 
-// GET /api/books/editBook/:id - Obter um livro específico do usuário logado
-router.get('/editBook/:id', booksController.getBook);
-
-// POST /api/books/addBook - Criar novo livro para o usuário logado
-router.post('/addBook', booksController.createNewBook);
-
-// PUT /api/books/editBook/:id - Atualizar livro do usuário logado
-router.put('/editBook/:id', booksController.updateBook);
-
-// DELETE /api/books/:id - Deletar livro do usuário logado
-router.delete('/:id', booksController.deleteBook);
+// Nova rota para atualizar apenas o progresso
+router.patch('/:id/progress', bookController.updateProgress);
+router.patch('/:id/rating', bookController.updateRating);
 
 module.exports = router;
-

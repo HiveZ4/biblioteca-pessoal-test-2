@@ -1,0 +1,381 @@
+.biblioteca-container {
+  padding: 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.search-section {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.search-input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 2px solid #2d2d2d;
+  border-radius: 8px;
+  background: #1a1a1a;
+  color: white;
+  font-size: 1rem;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #3B82F6;
+}
+
+.btn-add {
+  padding: 0.75rem 1.5rem;
+  background: #10B981;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-add:hover {
+  background: #059669;
+}
+
+.loading,
+.empty {
+  text-align: center;
+  padding: 3rem;
+  color: #9ca3af;
+}
+
+.books-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+/* Card Compacto - TEMA PRETO */
+.book-card-compact {
+  background: #1a1a1a;
+  border: 1px solid #2d2d2d;
+  border-radius: 12px;
+  padding: 1.25rem;
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.book-card-compact:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  border-color: #3a3a3a;
+}
+
+.book-title-compact {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 0.5rem 0;
+  padding-right: 70px;
+  line-height: 1.3;
+}
+
+.book-author-compact {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  font-style: italic;
+  margin: 0 0 1rem 0;
+}
+
+/* Botões de Ação */
+.book-buttons {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon:first-child {
+  background: #3B82F6;
+}
+
+.btn-icon:first-child:hover {
+  background: #2563EB;
+  transform: scale(1.1);
+}
+
+.btn-icon:last-child {
+  background: #EF4444;
+}
+
+.btn-icon:last-child:hover {
+  background: #DC2626;
+  transform: scale(1.1);
+}
+
+/* Informações */
+.book-info-compact {
+  margin-bottom: 1rem;
+}
+
+.book-info-compact p {
+  font-size: 0.85rem;
+  color: #ffffff;
+  margin: 0.3rem 0;
+  font-weight: 500;
+}
+
+/* Sistema de Avaliação por Estrelas */
+.rating-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: #0d0d0d;
+  border-radius: 8px;
+  border: 1px solid #2d2d2d;
+}
+
+.rating-label {
+  font-size: 0.85rem;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.stars {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.star-btn {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s;
+  filter: grayscale(100%);
+  opacity: 0.3;
+}
+
+.star-btn:hover:not(:disabled) {
+  transform: scale(1.2);
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+.star-btn.active {
+  filter: grayscale(0%);
+  opacity: 1;
+  animation: pulse 0.3s ease;
+}
+
+.star-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* Badge de Status */
+.status-badge {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: 12px;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+/* Barra de Progresso */
+.progress-bar-container {
+  margin-bottom: 1rem;
+}
+
+.progress-bar-bg {
+  width: 100%;
+  height: 20px;
+  background: #0d0d0d;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 0.5rem;
+  border: 1px solid #2d2d2d;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.5s ease;
+}
+
+.progress-text {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #9ca3af;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Botão Atualizar Progresso */
+.btn-update-progress {
+  width: 100%;
+  padding: 0.6rem;
+  background: #3B82F6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.85rem;
+}
+
+.btn-update-progress:hover {
+  background: #2563EB;
+  transform: translateY(-1px);
+}
+
+/* Edição de Progresso */
+.progress-edit {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.progress-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.progress-input-row input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 2px solid #2d2d2d;
+  border-radius: 6px;
+  background: #1a1a1a;
+  color: white;
+  font-size: 0.95rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.progress-input-row input:focus {
+  outline: none;
+  border-color: #3B82F6;
+}
+
+.progress-input-row input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.progress-input-row span {
+  color: #9ca3af;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.progress-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-save,
+.btn-cancel {
+  flex: 1;
+  padding: 0.55rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.btn-save {
+  background: #10B981;
+  color: white;
+}
+
+.btn-save:hover:not(:disabled) {
+  background: #059669;
+}
+
+.btn-save:disabled {
+  background: #6b7280;
+  cursor: not-allowed;
+}
+
+.btn-cancel {
+  background: #EF4444;
+  color: white;
+  max-width: 50px;
+}
+
+.btn-cancel:hover:not(:disabled) {
+  background: #DC2626;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .books-container {
+    grid-template-columns: 1fr;
+  }
+
+  .search-section {
+    flex-direction: column;
+  }
+
+  .btn-add {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .book-card-compact {
+    padding: 1rem;
+  }
+
+  .book-title-compact {
+    font-size: 1rem;
+    padding-right: 80px;
+  }
+
+  .progress-buttons {
+    flex-direction: column;
+  }
+
+  .btn-cancel {
+    max-width: none;
+  }
+}
