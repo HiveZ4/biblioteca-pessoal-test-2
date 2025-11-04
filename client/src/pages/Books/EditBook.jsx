@@ -73,26 +73,31 @@ const EditBook = () => {
       return;
     }
 
-    if (parseInt(formData.current_page) > parseInt(formData.no_of_pages)) {
-      alert('A página atual não pode ser maior que o total de páginas');
-      return;
-    }
-
-    if (parseInt(formData.no_of_pages) <= 0) {
+    const totalPages = parseInt(formData.no_of_pages) || 0;
+    
+    if (totalPages <= 0) {
       alert('O número de páginas deve ser maior que zero');
       return;
     }
+
+    const currentPage = parseInt(formData.current_page) || 0;
+    const finalCurrentPage = Math.min(Math.max(0, currentPage), totalPages);
+
+    const dataToSend = {
+      ...formData,
+      current_page: finalCurrentPage.toString()
+    };
 
     setSaving(true);
     try {
       const token = localStorage.getItem('token');
       await axios.put(
         `${API_URL}/api/books/editBook/${id}`,
-        formData,
+        dataToSend,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       
-      alert('Livro atualizado com sucesso! 📚');
+      // ✅ Navega direto sem alert
       navigate('/books');
     } catch (error) {
       console.error('Erro ao atualizar livro:', error);
@@ -106,13 +111,13 @@ const EditBook = () => {
     const total = parseInt(formData.no_of_pages) || 0;
     const current = parseInt(formData.current_page) || 0;
     if (total === 0) return 0;
-    return Math.round((current / total) * 100);
+    return Math.min(Math.round((current / total) * 100), 100);
   };
 
   const getStatus = () => {
     const progress = calculateProgress();
     if (progress === 0) return 'Quero Ler';
-    if (progress === 100) return 'Lido';
+    if (progress >= 100) return 'Lido';
     return 'Lendo';
   };
 
@@ -192,10 +197,14 @@ const EditBook = () => {
                 type="number"
                 name="current_page"
                 min="0"
-                max={formData.no_of_pages || 999999}
                 value={formData.current_page}
                 onChange={handleChange}
               />
+              {parseInt(formData.current_page) > parseInt(formData.no_of_pages) && (
+                <small style={{ color: '#f59e0b', fontSize: '0.85rem', marginTop: '0.25rem', display: 'block' }}>
+                  ⚠️ Será ajustado para {formData.no_of_pages} ao salvar
+                </small>
+              )}
             </div>
           </div>
 
@@ -281,7 +290,6 @@ const EditBook = () => {
             />
           </div>
 
-          {/* Preview do Progresso */}
           {formData.no_of_pages && (
             <div className="progress-preview">
               <div className="preview-header">
@@ -304,7 +312,7 @@ const EditBook = () => {
                 />
               </div>
               <p className="preview-text">
-                {formData.current_page || 0} de {formData.no_of_pages} páginas
+                {Math.min(parseInt(formData.current_page) || 0, parseInt(formData.no_of_pages) || 0)} de {formData.no_of_pages} páginas
               </p>
             </div>
           )}
@@ -320,7 +328,7 @@ const EditBook = () => {
             <button
               type="button"
               className="btn-close"
-              onClick={() => window.location.href = '/books'}
+              onClick={() => navigate('/books')}
               disabled={saving}
               title="Fechar"
             >
