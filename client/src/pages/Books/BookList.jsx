@@ -1,4 +1,3 @@
-// client/src/pages/BookList.jsx - Versão adaptada ao seu layout
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './BookList.css';
@@ -9,18 +8,11 @@ const BookList = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [editingProgress, setEditingProgress] = useState(null);
-  const [tempPage, setTempPage] = useState('');
-  const [updatingProgress, setUpdatingProgress] = useState(false);
+  const [selectedBook, setSelectedBook] = useState(null);
   const [updatingRating, setUpdatingRating] = useState(null);
-  const [expandedNotes, setExpandedNotes] = useState({});
-
-  const toggleNotes = (bookId) => {
-    setExpandedNotes(prev => ({
-      ...prev,
-      [bookId]: !prev[bookId]
-    }));
-  };
+  const [editingNotes, setEditingNotes] = useState(false);
+  const [tempNotes, setTempNotes] = useState('');
+  const [savingNotes, setSavingNotes] = useState(false);
 
   useEffect(() => {
     fetchBooks();
@@ -41,41 +33,6 @@ const BookList = () => {
     }
   };
 
-  const handleUpdateProgress = async (bookId, currentPage) => {
-    if (currentPage < 0) {
-      alert('A página não pode ser negativa');
-      return;
-    }
-
-    const book = books.find(b => b.id === bookId);
-    if (currentPage > book.no_of_pages) {
-      alert(`A página não pode ser maior que ${book.no_of_pages}`);
-      return;
-    }
-
-    setUpdatingProgress(true);
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.patch(
-        `${API_URL}/api/books/${bookId}/progress`,
-        { current_page: parseInt(currentPage) },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      
-      setBooks(books.map(b => 
-        b.id === bookId ? response.data : b
-      ));
-      
-      setEditingProgress(null);
-      setTempPage('');
-    } catch (error) {
-      console.error('Erro ao atualizar progresso:', error);
-      alert('Erro ao atualizar progresso');
-    } finally {
-      setUpdatingProgress(false);
-    }
-  };
-
   const handleUpdateRating = async (bookId, rating) => {
     setUpdatingRating(bookId);
     try {
@@ -89,12 +46,82 @@ const BookList = () => {
       setBooks(books.map(b => 
         b.id === bookId ? response.data : b
       ));
+      
+      if (selectedBook && selectedBook.id === bookId) {
+        setSelectedBook(response.data);
+      }
     } catch (error) {
       console.error('Erro ao atualizar avaliação:', error);
       alert('Erro ao atualizar avaliação');
     } finally {
       setUpdatingRating(null);
     }
+  };
+
+  const handleUpdateProgress = async (bookId, currentPage) => {
+    const book = books.find(b => b.id === bookId);
+    if (currentPage > book.no_of_pages) {
+      alert(`A página não pode ser maior que ${book.no_of_pages}`);
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.patch(
+        `${API_URL}/api/books/${bookId}/progress`,
+        { current_page: parseInt(currentPage) },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      
+      setBooks(books.map(b => 
+        b.id === bookId ? response.data : b
+      ));
+      
+      if (selectedBook && selectedBook.id === bookId) {
+        setSelectedBook(response.data);
+      }
+    } catch (error) {
+      console.error('Erro ao atualizar progresso:', error);
+      alert('Erro ao atualizar progresso');
+    }
+  };
+
+  const handleUpdateNotes = async (bookId) => {
+    setSavingNotes(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.put(
+        `${API_URL}/api/books/editBook/${bookId}`,
+        { 
+          ...selectedBook,
+          notes: tempNotes 
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      
+      setBooks(books.map(b => 
+        b.id === bookId ? response.data : b
+      ));
+      
+      setSelectedBook(response.data);
+      setEditingNotes(false);
+      alert('Notas atualizadas com sucesso! 📝');
+    } catch (error) {
+      console.error('Erro ao atualizar notas:', error);
+      alert('Erro ao atualizar notas');
+    } finally {
+      setSavingNotes(false);
+    }
+  };
+
+  const startEditingNotes = () => {
+    setTempNotes(selectedBook.notes || '');
+    setEditingNotes(true);
+  };
+
+  const cancelEditingNotes = () => {
+    setTempNotes('');
+    setEditingNotes(false);
   };
 
   const handleDelete = async (bookId) => {
@@ -108,23 +135,16 @@ const BookList = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
       setBooks(books.filter(book => book.id !== bookId));
+      setSelectedBook(null);
+      alert('Livro removido com sucesso!');
     } catch (error) {
       console.error('Erro ao deletar livro:', error);
       alert('Erro ao remover livro');
     }
   };
 
-  const startEditingProgress = (bookId, currentPage) => {
-    setEditingProgress(bookId);
-    setTempPage(currentPage.toString());
-  };
-
-  const cancelEditingProgress = () => {
-    setEditingProgress(null);
-    setTempPage('');
-  };
-
   const formatDate = (dateString) => {
+    if (!dateString) return 'Não informado';
     const date = new Date(dateString);
     return date.toLocaleDateString('pt-BR');
   };
@@ -148,12 +168,12 @@ const BookList = () => {
   );
 
   if (loading) {
-    return <div className="loading">Carregando...</div>;
+    return <div className="loading">Carregando livros... 📚</div>;
   }
 
   return (
     <div className="biblioteca-container">
-      {/* Mantém o mesmo cabeçalho que você tem */}
+      {/* Barra de Busca */}
       <div className="search-section">
         <input
           type="text"
@@ -166,152 +186,216 @@ const BookList = () => {
 
       {filteredBooks.length === 0 ? (
         <div className="empty">
-          <p>Nenhum livro encontrado</p>
+          <p>📚 Nenhum livro encontrado</p>
         </div>
       ) : (
-        <div className="books-container">
+        <div className="books-grid-covers">
           {filteredBooks.map(book => (
-            <div key={book.id} className="book-card-compact">
-              {/* Título e Autor */}
-              <h3 className="book-title-compact">{book.title}</h3>
-              <p className="book-author-compact">por {book.author}</p>
-              
-              {/* Botões de Ação */}
-              <div className="book-buttons">
-                <button
-                  onClick={() => window.location.href = `/books/editBook/${book.id}`}
-                  className="btn-icon"
-                  title="Editar"
-                >
-                  ✏️
-                </button>
-                <button
-                  onClick={() => handleDelete(book.id)}
-                  className="btn-icon"
-                  title="Remover"
-                >
-                  🗑️
-                </button>
-              </div>
-
-              {/* Informações */}
-              <div className="book-info-compact">
-                {book.genre && (
-                  <p>🎭 Gênero: {book.genre}</p>
-                )}
-                <p>📖 Páginas: {book.no_of_pages}</p>
-                <p>📅 Publicado: {formatDate(book.published_at)}</p>
-                {book.start_date && (
-                  <p>🚀 Iniciado: {formatDate(book.start_date)}</p>
-                )}
-                {book.finish_date && (
-                  <p>🏁 Concluído: {formatDate(book.finish_date)}</p>
-                )}
-              </div>
-
-              {/* Notas - Sempre visível com expand/collapse */}
-              {book.notes && (
-                <div className="notes-section">
-                  <div 
-                    className="notes-header"
-                    onClick={() => toggleNotes(book.id)}
-                  >
-                    <strong>📝 Notas</strong>
-                    <span className="notes-toggle">
-                      {expandedNotes[book.id] ? '▼' : '▶'}
-                    </span>
+            <div 
+              key={book.id} 
+              className="book-cover-card"
+              onClick={() => setSelectedBook(book)}
+            >
+              {/* Imagem de Capa */}
+              <div className="book-cover-image">
+                {book.cover_image ? (
+                  <img src={book.cover_image} alt={book.title} />
+                ) : (
+                  <div className="book-cover-placeholder">
+                    <span>📚</span>
+                    <p>{book.title}</p>
                   </div>
-                  {expandedNotes[book.id] && (
-                    <p className="notes-text">{book.notes}</p>
-                  )}
-                </div>
-              )}
+                )}
+              </div>
 
-              {/* Sistema de Avaliação por Estrelas */}
-              <div className="rating-container">
-                <span className="rating-label">Avaliação:</span>
-                <div className="stars">
+              {/* Título e Avaliação */}
+              <div className="book-cover-info">
+                <h3 className="book-cover-title">{book.title}</h3>
+                <p className="book-cover-author">{book.author}</p>
+                
+                {/* Estrelas */}
+                <div className="book-cover-rating">
                   {[1, 2, 3, 4, 5].map(star => (
-                    <button
+                    <span
                       key={star}
-                      className={`star-btn ${star <= (book.rating || 0) ? 'active' : ''}`}
-                      onClick={() => handleUpdateRating(book.id, star)}
-                      disabled={updatingRating === book.id}
-                      title={`${star} estrela${star > 1 ? 's' : ''}`}
+                      className={`star ${star <= (book.rating || 0) ? 'filled' : ''}`}
                     >
                       ⭐
-                    </button>
+                    </span>
                   ))}
                 </div>
               </div>
+            </div>
+          ))}
+        </div>
+      )}
 
-              {/* Status e Progresso */}
-              <div 
-                className="status-badge"
-                style={{ backgroundColor: getStatusColor(book.progress) }}
-              >
-                {getStatusText(book.progress)}: {book.progress}%
+      {/* Modal de Detalhes */}
+      {selectedBook && (
+        <div className="book-modal-overlay" onClick={() => setSelectedBook(null)}>
+          <div className="book-modal" onClick={(e) => e.stopPropagation()}>
+            <button 
+              className="modal-close"
+              onClick={() => setSelectedBook(null)}
+            >
+              ✕
+            </button>
+
+            <div className="modal-content">
+              {/* Coluna da Imagem */}
+              <div className="modal-cover">
+                {selectedBook.cover_image ? (
+                  <img src={selectedBook.cover_image} alt={selectedBook.title} />
+                ) : (
+                  <div className="modal-cover-placeholder">
+                    <span>📚</span>
+                  </div>
+                )}
               </div>
 
-              {/* Barra de Progresso */}
-              <div className="progress-bar-container">
-                <div className="progress-bar-bg">
-                  <div 
-                    className="progress-bar-fill"
-                    style={{ 
-                      width: `${book.progress}%`,
-                      backgroundColor: getStatusColor(book.progress)
-                    }}
-                  />
+              {/* Coluna de Informações */}
+              <div className="modal-info">
+                <h2>{selectedBook.title}</h2>
+                <p className="modal-author">por {selectedBook.author}</p>
+
+                {/* Avaliação Editável */}
+                <div className="modal-rating">
+                  <strong>Avaliação:</strong>
+                  <div className="stars-editable">
+                    {[1, 2, 3, 4, 5].map(star => (
+                      <button
+                        key={star}
+                        className={`star-btn-modal ${star <= (selectedBook.rating || 0) ? 'active' : ''}`}
+                        onClick={() => handleUpdateRating(selectedBook.id, star)}
+                        disabled={updatingRating === selectedBook.id}
+                      >
+                        ⭐
+                      </button>
+                    ))}
+                  </div>
                 </div>
-                <p className="progress-text">
-                  {book.current_page} / {book.no_of_pages} páginas
-                </p>
-              </div>
 
-              {/* Controle de Progresso */}
-              {editingProgress === book.id ? (
-                <div className="progress-edit">
-                  <div className="progress-input-row">
+                {/* Informações Detalhadas */}
+                <div className="modal-details">
+                  {selectedBook.genre && (
+                    <p><strong>🎭 Gênero:</strong> {selectedBook.genre}</p>
+                  )}
+                  <p><strong>📖 Páginas:</strong> {selectedBook.no_of_pages}</p>
+                  <p><strong>📅 Publicado:</strong> {formatDate(selectedBook.published_at)}</p>
+                  {selectedBook.start_date && (
+                    <p><strong>🚀 Iniciado:</strong> {formatDate(selectedBook.start_date)}</p>
+                  )}
+                  {selectedBook.finish_date && (
+                    <p><strong>🏁 Concluído:</strong> {formatDate(selectedBook.finish_date)}</p>
+                  )}
+                </div>
+
+                {/* Progresso */}
+                <div className="modal-progress">
+                  <div className="progress-header-modal">
+                    <span 
+                      className="status-badge-modal"
+                      style={{ backgroundColor: getStatusColor(selectedBook.progress) }}
+                    >
+                      {getStatusText(selectedBook.progress)}
+                    </span>
+                    <span className="progress-percent">{selectedBook.progress}%</span>
+                  </div>
+                  
+                  <div className="progress-bar-modal">
+                    <div 
+                      className="progress-fill-modal"
+                      style={{ 
+                        width: `${selectedBook.progress}%`,
+                        backgroundColor: getStatusColor(selectedBook.progress)
+                      }}
+                    />
+                  </div>
+                  
+                  <div className="progress-controls">
+                    <label>Página atual:</label>
                     <input
                       type="number"
                       min="0"
-                      max={book.no_of_pages}
-                      value={tempPage}
-                      onChange={(e) => setTempPage(e.target.value)}
-                      disabled={updatingProgress}
-                      placeholder="Página"
-                      autoFocus
+                      max={selectedBook.no_of_pages}
+                      defaultValue={selectedBook.current_page}
+                      onBlur={(e) => handleUpdateProgress(selectedBook.id, e.target.value)}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                          handleUpdateProgress(selectedBook.id, e.target.value);
+                        }
+                      }}
                     />
-                    <span>/ {book.no_of_pages}</span>
-                  </div>
-                  <div className="progress-buttons">
-                    <button 
-                      onClick={() => handleUpdateProgress(book.id, tempPage)}
-                      disabled={updatingProgress || !tempPage}
-                      className="btn-save"
-                    >
-                      {updatingProgress ? '⏳' : '✓'} Salvar
-                    </button>
-                    <button 
-                      onClick={cancelEditingProgress}
-                      disabled={updatingProgress}
-                      className="btn-cancel"
-                    >
-                      ✕
-                    </button>
+                    <span>de {selectedBook.no_of_pages}</span>
                   </div>
                 </div>
-              ) : (
-                <button
-                  className="btn-update-progress"
-                  onClick={() => startEditingProgress(book.id, book.current_page)}
-                >
-                  📝 Atualizar Progresso
-                </button>
-              )}
+
+                {/* Notas - Editável Inline */}
+                <div className="modal-notes">
+                  <div className="notes-header-modal">
+                    <strong>📝 Notas e Anotações</strong>
+                    {!editingNotes && (
+                      <button 
+                        className="btn-edit-notes"
+                        onClick={startEditingNotes}
+                      >
+                        ✏️ Editar
+                      </button>
+                    )}
+                  </div>
+                  
+                  {editingNotes ? (
+                    <div className="notes-edit-area">
+                      <textarea
+                        value={tempNotes}
+                        onChange={(e) => setTempNotes(e.target.value)}
+                        placeholder="Suas impressões, citações favoritas, análises..."
+                        rows="6"
+                        autoFocus
+                        disabled={savingNotes}
+                      />
+                      <div className="notes-actions">
+                        <button
+                          className="btn-save-notes"
+                          onClick={() => handleUpdateNotes(selectedBook.id)}
+                          disabled={savingNotes}
+                        >
+                          {savingNotes ? '⏳ Salvando...' : '✓ Salvar'}
+                        </button>
+                        <button
+                          className="btn-cancel-notes"
+                          onClick={cancelEditingNotes}
+                          disabled={savingNotes}
+                        >
+                          ✕ Cancelar
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="notes-display">
+                      {selectedBook.notes || 'Nenhuma anotação ainda. Clique em Editar para adicionar suas impressões!'}
+                    </p>
+                  )}
+                </div>
+
+                {/* Botões de Ação */}
+                <div className="modal-actions">
+                  <button
+                    className="btn-edit-modal"
+                    onClick={() => window.location.href = `/books/editBook/${selectedBook.id}`}
+                  >
+                    ✏️ Editar
+                  </button>
+                  <button
+                    className="btn-delete-modal"
+                    onClick={() => handleDelete(selectedBook.id)}
+                  >
+                    🗑️ Remover
+                  </button>
+                </div>
+              </div>
             </div>
-          ))}
+          </div>
         </div>
       )}
     </div>

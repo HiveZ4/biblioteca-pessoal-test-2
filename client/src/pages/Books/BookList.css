@@ -1,308 +1,189 @@
 .biblioteca-container {
-  padding: 1rem;
-  max-width: 1400px;
+  padding: 1.5rem;
+  max-width: 1600px;
   margin: 0 auto;
 }
 
 .search-section {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .search-input {
-  flex: 1;
-  padding: 0.75rem;
+  width: 100%;
+  padding: 1rem;
   border: 2px solid #2d2d2d;
-  border-radius: 8px;
+  border-radius: 12px;
   background: #1a1a1a;
   color: white;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 .search-input:focus {
   outline: none;
   border-color: #3B82F6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
 
 .loading,
 .empty {
   text-align: center;
-  padding: 3rem;
+  padding: 4rem;
   color: #9ca3af;
+  font-size: 1.2rem;
 }
 
-.books-container {
+/* Grid de Capas */
+.books-grid-covers {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 2rem;
 }
 
-/* Card Compacto - TEMA PRETO */
-.book-card-compact {
-  background: #1a1a1a;
-  border: 1px solid #2d2d2d;
+/* Card de Capa */
+.book-cover-card {
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
   border-radius: 12px;
-  padding: 1.25rem;
+  overflow: hidden;
+}
+
+.book-cover-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* Imagem de Capa */
+.book-cover-image {
+  width: 100%;
+  aspect-ratio: 2/3;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  border-radius: 12px 12px 0 0;
   position: relative;
-  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.book-card-compact:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-  border-color: #3a3a3a;
+.book-cover-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
 }
 
-.book-title-compact {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: white;
-  margin: 0 0 0.5rem 0;
-  padding-right: 70px;
+.book-cover-card:hover .book-cover-image img {
+  transform: scale(1.05);
+}
+
+/* Placeholder quando não tem imagem */
+.book-cover-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  text-align: center;
+}
+
+.book-cover-placeholder span {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.book-cover-placeholder p {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
   line-height: 1.3;
 }
 
-.book-author-compact {
+/* Info abaixo da capa */
+.book-cover-info {
+  padding: 1rem;
+  background: #1a1a1a;
+  border: 1px solid #2d2d2d;
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+}
+
+.book-cover-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.5rem 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.3;
+}
+
+.book-cover-author {
   font-size: 0.85rem;
   color: #9ca3af;
-  font-style: italic;
-  margin: 0 0 1rem 0;
+  margin: 0 0 0.75rem 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* Botões de Ação */
-.book-buttons {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
+/* Estrelas no Card */
+.book-cover-rating {
   display: flex;
-  gap: 0.5rem;
-}
-
-.btn-icon {
-  width: 32px;
-  height: 32px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
+  gap: 0.2rem;
   justify-content: center;
 }
 
-.btn-icon:first-child {
-  background: #3B82F6;
-}
-
-.btn-icon:first-child:hover {
-  background: #2563EB;
-  transform: scale(1.1);
-}
-
-.btn-icon:last-child {
-  background: #EF4444;
-}
-
-.btn-icon:last-child:hover {
-  background: #DC2626;
-  transform: scale(1.1);
-}
-
-/* Informações */
-.book-info-compact {
-  margin-bottom: 1rem;
-}
-
-.book-info-compact p {
-  font-size: 0.85rem;
-  color: #ffffff;
-  margin: 0.3rem 0;
-  font-weight: 500;
-}
-
-/* Seção de Notas - Expansível */
-.notes-section {
-  background: #0d0d0d;
-  padding: 0.75rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  border: 1px solid #2d2d2d;
-}
-
-.notes-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  user-select: none;
-}
-
-.notes-header:hover {
-  opacity: 0.8;
-}
-
-.notes-header strong {
-  color: #ffffff;
-  font-size: 0.85rem;
-}
-
-.notes-toggle {
-  color: #3B82F6;
-  font-size: 0.8rem;
-  transition: transform 0.2s;
-}
-
-.notes-text {
-  color: #d1d5db;
-  font-size: 0.85rem;
-  line-height: 1.5;
-  margin: 0.75rem 0 0 0;
-  padding-top: 0.75rem;
-  border-top: 1px solid #2d2d2d;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  animation: slideDown 0.3s ease;
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    max-height: 0;
-  }
-  to {
-    opacity: 1;
-    max-height: 500px;
-  }
-}
-
-/* Sistema de Avaliação por Estrelas */
-.rating-container {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  padding: 0.75rem;
-  background: #0d0d0d;
-  border-radius: 8px;
-  border: 1px solid #2d2d2d;
-}
-
-.rating-label {
-  font-size: 0.85rem;
-  color: #ffffff;
-  font-weight: 600;
-}
-
-.stars {
-  display: flex;
-  gap: 0.25rem;
-}
-
-.star-btn {
-  background: none;
-  border: none;
-  font-size: 1.3rem;
-  cursor: pointer;
-  padding: 0;
-  transition: all 0.2s;
+.book-cover-rating .star {
+  font-size: 1.2rem;
   filter: grayscale(100%);
   opacity: 0.3;
 }
 
-.star-btn:hover:not(:disabled) {
-  transform: scale(1.2);
+.book-cover-rating .star.filled {
   filter: grayscale(0%);
   opacity: 1;
 }
 
-.star-btn.active {
-  filter: grayscale(0%);
-  opacity: 1;
-  animation: pulse 0.3s ease;
-}
-
-.star-btn:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-}
-
-/* Badge de Status */
-.status-badge {
-  display: inline-block;
-  padding: 0.35rem 0.75rem;
-  border-radius: 12px;
-  color: white;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  margin-bottom: 0.75rem;
-}
-
-/* Barra de Progresso */
-.progress-bar-container {
-  margin-bottom: 1rem;
-}
-
-.progress-bar-bg {
-  width: 100%;
-  height: 20px;
-  background: #0d0d0d;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
-  margin-bottom: 0.5rem;
-  border: 1px solid #2d2d2d;
-}
-
-.progress-bar-fill {
-  height: 100%;
-  border-radius: 10px;
-  transition: width 0.5s ease;
-}
-
-.progress-text {
-  text-align: center;
-  font-size: 0.8rem;
-  color: #9ca3af;
-  font-weight: 600;
-  margin: 0;
-}
-
-/* Botão Atualizar Progresso */
-.btn-update-progress {
-  width: 100%;
-  padding: 0.6rem;
-  background: #3B82F6;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-size: 0.85rem;
-}
-
-.btn-update-progress:hover {
-  background: #2563EB;
-  transform: translateY(-1px);
-}
-
-/* Edição de Progresso */
-.progress-edit {
+/* MODAL DE DETALHES */
+.book-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem;
   animation: fadeIn 0.3s ease;
 }
 
 @keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.book-modal {
+  background: #1a1a1a;
+  border: 1px solid #2d2d2d;
+  border-radius: 16px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(-5px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -310,108 +191,427 @@
   }
 }
 
-.progress-input-row {
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #EF4444;
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
+  justify-content: center;
 }
 
-.progress-input-row input {
-  flex: 1;
+.modal-close:hover {
+  background: #DC2626;
+  transform: scale(1.1);
+}
+
+.modal-content {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+/* Capa no Modal */
+.modal-cover {
+  width: 100%;
+  aspect-ratio: 2/3;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.modal-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-cover-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+}
+
+.modal-cover-placeholder span {
+  font-size: 6rem;
+}
+
+/* Informações no Modal */
+.modal-info h2 {
+  font-size: 2rem;
+  color: #ffffff;
+  margin: 0 0 0.5rem 0;
+  padding-right: 3rem;
+}
+
+.modal-author {
+  font-size: 1.1rem;
+  color: #9ca3af;
+  margin: 0 0 1.5rem 0;
+  font-style: italic;
+}
+
+/* Avaliação no Modal */
+.modal-rating {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #0d0d0d;
+  border-radius: 8px;
+  border: 1px solid #2d2d2d;
+}
+
+.modal-rating strong {
+  display: block;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.stars-editable {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.star-btn-modal {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s;
+  filter: grayscale(100%);
+  opacity: 0.3;
+}
+
+.star-btn-modal:hover:not(:disabled) {
+  transform: scale(1.2);
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+.star-btn-modal.active {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+.star-btn-modal:disabled {
+  cursor: not-allowed;
+}
+
+/* Detalhes */
+.modal-details {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #0d0d0d;
+  border-radius: 8px;
+  border: 1px solid #2d2d2d;
+}
+
+.modal-details p {
+  margin: 0.5rem 0;
+  color: #d1d5db;
+  font-size: 0.95rem;
+}
+
+.modal-details strong {
+  color: #ffffff;
+  margin-right: 0.5rem;
+}
+
+/* Progresso no Modal */
+.modal-progress {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #0d0d0d;
+  border-radius: 8px;
+  border: 1px solid #2d2d2d;
+}
+
+.progress-header-modal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.status-badge-modal {
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.progress-percent {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.progress-bar-modal {
+  width: 100%;
+  height: 28px;
+  background: #1a1a1a;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  border: 1px solid #2d2d2d;
+}
+
+.progress-fill-modal {
+  height: 100%;
+  transition: width 0.5s ease;
+}
+
+.progress-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.progress-controls label {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.progress-controls input {
+  width: 80px;
   padding: 0.5rem;
+  background: #1a1a1a;
   border: 2px solid #2d2d2d;
   border-radius: 6px;
-  background: #1a1a1a;
-  color: white;
-  font-size: 0.95rem;
+  color: #ffffff;
   text-align: center;
   font-weight: 600;
 }
 
-.progress-input-row input:focus {
+.progress-controls input:focus {
   outline: none;
   border-color: #3B82F6;
 }
 
-.progress-input-row input:disabled {
-  opacity: 0.5;
+.progress-controls span {
+  color: #9ca3af;
+  font-size: 0.9rem;
+}
+
+/* Notas no Modal - Editável */
+.modal-notes {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #0d0d0d;
+  border-radius: 8px;
+  border: 1px solid #2d2d2d;
+}
+
+.notes-header-modal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.notes-header-modal strong {
+  color: #ffffff;
+  font-size: 0.95rem;
+}
+
+.btn-edit-notes {
+  padding: 0.4rem 0.75rem;
+  background: #3B82F6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-edit-notes:hover {
+  background: #2563EB;
+  transform: translateY(-1px);
+}
+
+.notes-display {
+  color: #d1d5db;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  margin: 0;
+  font-style: italic;
+}
+
+.notes-edit-area {
+  animation: fadeIn 0.3s ease;
+}
+
+.notes-edit-area textarea {
+  width: 100%;
+  padding: 0.75rem;
+  background: #1a1a1a;
+  border: 2px solid #2d2d2d;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  font-family: inherit;
+  resize: vertical;
+  margin-bottom: 0.75rem;
+}
+
+.notes-edit-area textarea:focus {
+  outline: none;
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.notes-edit-area textarea:disabled {
+  opacity: 0.6;
   cursor: not-allowed;
 }
 
-.progress-input-row span {
-  color: #9ca3af;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.progress-buttons {
+.notes-actions {
   display: flex;
   gap: 0.5rem;
 }
 
-.btn-save,
-.btn-cancel {
-  flex: 1;
-  padding: 0.55rem;
+.btn-save-notes,
+.btn-cancel-notes {
+  padding: 0.6rem 1rem;
   border: none;
   border-radius: 6px;
-  cursor: pointer;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
+  cursor: pointer;
   transition: all 0.2s;
 }
 
-.btn-save {
+.btn-save-notes {
+  flex: 1;
   background: #10B981;
   color: white;
 }
 
-.btn-save:hover:not(:disabled) {
+.btn-save-notes:hover:not(:disabled) {
   background: #059669;
+  transform: translateY(-1px);
 }
 
-.btn-save:disabled {
+.btn-save-notes:disabled {
   background: #6b7280;
   cursor: not-allowed;
 }
 
-.btn-cancel {
+.btn-cancel-notes {
   background: #EF4444;
   color: white;
-  max-width: 50px;
+  min-width: 100px;
 }
 
-.btn-cancel:hover:not(:disabled) {
+.btn-cancel-notes:hover:not(:disabled) {
   background: #DC2626;
+  transform: translateY(-1px);
+}
+
+.btn-cancel-notes:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Botões de Ação */
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-edit-modal,
+.btn-delete-modal {
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-edit-modal {
+  background: #3B82F6;
+  color: white;
+}
+
+.btn-edit-modal:hover {
+  background: #2563EB;
+  transform: translateY(-2px);
+}
+
+.btn-delete-modal {
+  background: #EF4444;
+  color: white;
+}
+
+.btn-delete-modal:hover {
+  background: #DC2626;
+  transform: translateY(-2px);
 }
 
 /* Responsivo */
 @media (max-width: 768px) {
-  .books-container {
-    grid-template-columns: 1fr;
+  .books-grid-covers {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
   }
 
-  .search-section {
-    flex-direction: column;
+  .modal-content {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .modal-cover {
+    max-width: 250px;
+    margin: 0 auto;
+  }
+
+  .modal-info h2 {
+    font-size: 1.5rem;
   }
 }
 
 @media (max-width: 480px) {
-  .book-card-compact {
+  .biblioteca-container {
     padding: 1rem;
   }
 
-  .book-title-compact {
-    font-size: 1rem;
-    padding-right: 80px;
+  .books-grid-covers {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   }
 
-  .progress-buttons {
+  .book-cover-title {
+    font-size: 0.85rem;
+  }
+
+  .book-cover-author {
+    font-size: 0.75rem;
+  }
+
+  .modal-actions {
     flex-direction: column;
-  }
-
-  .btn-cancel {
-    max-width: none;
   }
 }

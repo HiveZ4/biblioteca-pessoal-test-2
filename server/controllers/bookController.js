@@ -47,7 +47,8 @@ exports.addBook = async (req, res) => {
   try {
     const { 
       title, 
-      author, 
+      author,
+      cover_image = null,
       no_of_pages, 
       published_at, 
       current_page = 0,
@@ -75,6 +76,7 @@ exports.addBook = async (req, res) => {
       data: {
         title,
         author,
+        cover_image,
         no_of_pages: parseInt(no_of_pages),
         current_page: parseInt(current_page),
         published_at: formatDate(published_at),
@@ -134,7 +136,8 @@ exports.updateBook = async (req, res) => {
     const { id } = req.params;
     const { 
       title, 
-      author, 
+      author,
+      cover_image,
       no_of_pages, 
       published_at, 
       current_page,
@@ -172,6 +175,7 @@ exports.updateBook = async (req, res) => {
       data: {
         title,
         author,
+        cover_image: cover_image !== undefined ? cover_image : existingBook.cover_image,
         no_of_pages: parseInt(no_of_pages),
         current_page: parseInt(finalCurrentPage),
         published_at: formatDate(published_at),

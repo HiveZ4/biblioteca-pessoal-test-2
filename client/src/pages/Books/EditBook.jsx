@@ -11,6 +11,7 @@ const EditBook = () => {
   const [formData, setFormData] = useState({
     title: '',
     author: '',
+    cover_image: '',
     no_of_pages: '',
     published_at: '',
     current_page: '0',
@@ -38,6 +39,7 @@ const EditBook = () => {
       setFormData({
         title: book.title,
         author: book.author,
+        cover_image: book.cover_image || '',
         no_of_pages: book.no_of_pages.toString(),
         published_at: book.published_at,
         current_page: book.current_page.toString(),
@@ -150,6 +152,23 @@ const EditBook = () => {
               onChange={handleChange}
               required
             />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="cover_image">URL da Imagem de Capa</label>
+            <input
+              id="cover_image"
+              type="url"
+              name="cover_image"
+              value={formData.cover_image}
+              onChange={handleChange}
+              placeholder="https://exemplo.com/capa.jpg"
+            />
+            {formData.cover_image && (
+              <div className="image-preview">
+                <img src={formData.cover_image} alt="Preview" />
+              </div>
+            )}
           </div>
 
           <div className="form-row">
