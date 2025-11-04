@@ -31,7 +31,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(`${URL}/api/auth/login`, formData);
-      
+      console.log(response);
       if (response.data.token && response.data.user) {
         login(response.data.user, response.data.token);
         navigate('/books');

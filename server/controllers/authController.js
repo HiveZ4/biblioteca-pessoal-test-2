@@ -62,10 +62,10 @@ const authController = {
         }
       });
 
-      // Gerar token JWT
+      
       const token = generateToken(newUser);
 
-      // Remover senha da resposta
+      
       const { password: _, ...userWithoutPassword } = newUser;
 
       res.status(201).json({
@@ -80,19 +80,19 @@ const authController = {
     }
   },
 
-  // POST /api/auth/login - Login do usuário
+  
   login: async (req, res) => {
     try {
       const { email, password } = req.body;
 
-      // Validação dos campos obrigatórios
+      
       if (!email || !password) {
         return res.status(400).json({ 
           message: "Por favor, preencha email e senha!" 
         });
       }
 
-      // Buscar usuário por email
+      
       const user = await prisma.user.findUnique({
         where: { email }
       });
@@ -103,7 +103,7 @@ const authController = {
         });
       }
 
-      // Verificar senha
+      
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
       if (!isPasswordValid) {
@@ -112,10 +112,10 @@ const authController = {
         });
       }
 
-      // Gerar token JWT
+      
       const token = generateToken(user);
 
-      // Remover senha da resposta
+      
       const { password: _, ...userWithoutPassword } = user;
 
       res.json({
@@ -160,7 +160,6 @@ const authController = {
     }
   },
 
-  // POST /api/auth/logout - Logout (opcional, para implementação futura com blacklist)
   logout: async (req, res) => {
     try {
       // Em uma implementação completa, você adicionaria o token a uma blacklist
