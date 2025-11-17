@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './auth.css';
+import './Auth.css';
 
-const URL = 'https://biblioteca-pessoal-test-2-bakcend.vercel.app';
+// ✅ IMPORTANTE: Importe seu AuthContext
+// Ajuste o caminho conforme a estrutura do seu projeto
+import { AuthContext } from '../../context/AuthContext';
 
-const Register = () => {
+function Register() {
+  const navigate = useNavigate();
+  
+  // ✅ CORREÇÃO: Pegar o setUser/setIsAuthenticated do Context
+  const { setUser, setIsAuthenticated } = useContext(AuthContext);
+  
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -15,9 +21,8 @@ const Register = () => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  
-  const { login } = useAuth();
-  const navigate = useNavigate();
+
+  const API_URL = 'http://localhost:8082';
 
   const handleChange = (e) => {
     setFormData({
@@ -30,33 +35,63 @@ const Register = () => {
     e.preventDefault();
     setError('');
 
-    // Validação das senhas
+    // Validações
     if (formData.password !== formData.confirmPassword) {
       setError('As senhas não coincidem');
       return;
     }
 
     if (formData.password.length < 6) {
-      setError('A senha deve ter pelo menos 6 caracteres');
+      setError('A senha deve ter no mínimo 6 caracteres');
       return;
     }
 
     setLoading(true);
 
     try {
-      const { confirmPassword, ...dataToSend } = formData;
-      const response = await axios.post(`${URL}/api/auth/register`, dataToSend);
-      
-      if (response.data.token && response.data.user) {
-        login(response.data.user, response.data.token);
-        navigate('/books');
+      console.log('📝 Criando conta...');
+
+      const response = await axios.post(`${API_URL}/api/auth/register`, {
+        username: formData.username,
+        email: formData.email,
+        password: formData.password
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      console.log('✅ Conta criada com sucesso:', response.data);
+
+      // Se o backend retornar token (login automático após registro)
+      if (response.data.token) {
+        // Salvar no localStorage
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+
+        // ✅ CORREÇÃO: Atualizar o Context IMEDIATAMENTE
+        setUser(response.data.user);
+        setIsAuthenticated(true);
+
+        console.log('✅ Context atualizado, redirecionando...');
+
+        // Redirecionar para a página principal
+        navigate('/');
+      } else {
+        // Se não retornar token, redirecionar para login
+        navigate('/login');
       }
-    } catch (error) {
-      console.error('Erro no registro:', error);
-      setError(
-        error.response?.data?.message || 
-        'Erro ao criar conta. Tente novamente.'
-      );
+
+    } catch (err) {
+      console.error('❌ Erro ao criar conta:', err);
+      
+      if (err.response) {
+        setError(err.response.data.message || 'Erro ao criar conta');
+      } else if (err.request) {
+        setError('Servidor não está respondendo. Verifique se o backend está rodando.');
+      } else {
+        setError('Erro ao conectar com o servidor');
+      }
     } finally {
       setLoading(false);
     }
@@ -70,19 +105,24 @@ const Register = () => {
           <p>Cadastre-se no Gerenciador de Livros</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="auth-form">
-          {error && <div className="error-message">{error}</div>}
-          
+        {error && (
+          <div className="error-message">
+            {error}
+          </div>
+        )}
+
+        <form className="auth-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="username">Nome de Usuário</label>
             <input
               type="text"
               id="username"
               name="username"
+              placeholder="Digite seu nome de usuário"
               value={formData.username}
               onChange={handleChange}
+              disabled={loading}
               required
-              placeholder="Digite seu nome de usuário"
             />
           </div>
 
@@ -92,10 +132,11 @@ const Register = () => {
               type="email"
               id="email"
               name="email"
+              placeholder="Digite seu email"
               value={formData.email}
               onChange={handleChange}
+              disabled={loading}
               required
-              placeholder="Digite seu email"
             />
           </div>
 
@@ -105,10 +146,11 @@ const Register = () => {
               type="password"
               id="password"
               name="password"
+              placeholder="Digite sua senha (mín. 6 caracteres)"
               value={formData.password}
               onChange={handleChange}
+              disabled={loading}
               required
-              placeholder="Digite sua senha (mín. 6 caracteres)"
             />
           </div>
 
@@ -118,10 +160,11 @@ const Register = () => {
               type="password"
               id="confirmPassword"
               name="confirmPassword"
+              placeholder="Confirme sua senha"
               value={formData.confirmPassword}
               onChange={handleChange}
+              disabled={loading}
               required
-              placeholder="Confirme sua senha"
             />
           </div>
 
@@ -136,14 +179,15 @@ const Register = () => {
 
         <div className="auth-footer">
           <p>
-            Já tem uma conta? 
-            <Link to="/login" className="auth-link"> Faça login</Link>
+            Já tem uma conta?{' '}
+            <a href="/login" className="auth-link">
+              Faça login
+            </a>
           </p>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default Register;
-

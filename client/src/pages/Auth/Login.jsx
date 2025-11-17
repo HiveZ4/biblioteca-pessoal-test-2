@@ -1,21 +1,26 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './auth.css';
+import './Auth.css';
 
-const URL = 'https://biblioteca-pessoal-test-2-bakcend.vercel.app';
+// ✅ IMPORTANTE: Importe seu AuthContext
+// Ajuste o caminho conforme a estrutura do seu projeto
+import { AuthContext } from '../../context/AuthContext';
 
-const Login = () => {
+function Login() {
+  const navigate = useNavigate();
+  
+  // ✅ CORREÇÃO: Pegar o setUser/setIsAuthenticated do Context
+  const { setUser, setIsAuthenticated } = useContext(AuthContext);
+  
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  
-  const { login } = useAuth();
-  const navigate = useNavigate();
+
+  const API_URL = 'http://localhost:8082';
 
   const handleChange = (e) => {
     setFormData({
@@ -30,18 +35,42 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(`${URL}/api/auth/login`, formData);
-      console.log(response);
-      if (response.data.token && response.data.user) {
-        login(response.data.user, response.data.token);
-        navigate('/books');
+      console.log('🔵 Iniciando login...');
+
+      const response = await axios.post(`${API_URL}/api/auth/login`, {
+        email: formData.email,
+        password: formData.password
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      console.log('✅ Login bem-sucedido:', response.data);
+
+      // Salvar no localStorage
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+
+      // ✅ CORREÇÃO PRINCIPAL: Atualizar o Context IMEDIATAMENTE
+      setUser(response.data.user);
+      setIsAuthenticated(true);
+
+      console.log('✅ Context atualizado, redirecionando...');
+
+      // Redirecionar para a página principal
+      navigate('/');
+
+    } catch (err) {
+      console.error('❌ Erro no login:', err);
+      
+      if (err.response) {
+        setError(err.response.data.message || 'Email ou senha inválidos');
+      } else if (err.request) {
+        setError('Servidor não está respondendo. Verifique se o backend está rodando.');
+      } else {
+        setError('Erro ao conectar com o servidor');
       }
-    } catch (error) {
-      console.error('Erro no login:', error);
-      setError(
-        error.response?.data?.message || 
-        'Erro ao fazer login. Tente novamente.'
-      );
     } finally {
       setLoading(false);
     }
@@ -55,19 +84,24 @@ const Login = () => {
           <p>Acesse sua conta do Gerenciador de Livros</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="auth-form">
-          {error && <div className="error-message">{error}</div>}
-          
+        {error && (
+          <div className="error-message">
+            {error}
+          </div>
+        )}
+
+        <form className="auth-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
               type="email"
               id="email"
               name="email"
+              placeholder="Digite seu email"
               value={formData.email}
               onChange={handleChange}
+              disabled={loading}
               required
-              placeholder="Digite seu email"
             />
           </div>
 
@@ -77,10 +111,11 @@ const Login = () => {
               type="password"
               id="password"
               name="password"
+              placeholder="Digite sua senha"
               value={formData.password}
               onChange={handleChange}
+              disabled={loading}
               required
-              placeholder="Digite sua senha"
             />
           </div>
 
@@ -95,14 +130,15 @@ const Login = () => {
 
         <div className="auth-footer">
           <p>
-            Não tem uma conta? 
-            <Link to="/register" className="auth-link"> Cadastre-se</Link>
+            Não tem uma conta?{' '}
+            <a href="/register" className="auth-link">
+              Cadastre-se
+            </a>
           </p>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default Login;
-

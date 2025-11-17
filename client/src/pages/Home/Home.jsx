@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 import hero from '../../assets/hero.jpg';
 import './home.css';
 import 'animate.css';
 
 const Home = () => {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleGetStarted = () => {
-    if (isAuthenticated()) {
+    if (isAuthenticated) {
       navigate('/books');
     } else {
       navigate('/register');
@@ -20,7 +20,7 @@ const Home = () => {
   return (
     <section className='home-page'>
       <div className='hero-container animate__animated animate__backInDown'>
-        {isAuthenticated() ? (
+        {isAuthenticated ? (
           <>
             <h1 className='hero__title'>Bem-vindo de volta, {user?.username}! 👋</h1>
             <p className='hero__subtitle'>
@@ -37,7 +37,7 @@ const Home = () => {
       </div>
       
       <div className='home-page__btn animate__animated animate__backInDown'>
-        {isAuthenticated() ? (
+        {isAuthenticated ? (
           <div className="auth-buttons">
             <Link to="/books" className="home-btn primary">
               Ver Meus Livros
@@ -58,7 +58,7 @@ const Home = () => {
         )}
       </div>
 
-      {!isAuthenticated() && (
+      {!isAuthenticated && (
         <div className="home-features animate__animated animate__fadeInUp">
         </div>
       )}
@@ -67,4 +67,3 @@ const Home = () => {
 };
 
 export default Home;
-

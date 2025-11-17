@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { AuthContext } from '../context/AuthContext';
 
-const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated, loading } = useAuth();
+function ProtectedRoute({ children }) {
+  // ✅ CORRIGIDO: Usar useContext ao invés de useAuth
+  const { isAuthenticated, loading } = useContext(AuthContext);
 
   // Mostrar loading enquanto verifica autenticação
   if (loading) {
@@ -13,22 +14,20 @@ const ProtectedRoute = ({ children }) => {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        fontSize: '18px',
-        color: '#666'
+        background: '#1a1a1a'
       }}>
-        Carregando...
+        <p style={{ color: '#fff', fontSize: '18px' }}>Carregando...</p>
       </div>
     );
   }
 
-  // Redirecionar para login se não estiver autenticado
-  if (!isAuthenticated()) {
+  // Se não estiver autenticado, redirecionar para login
+  if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
-  // Renderizar o componente protegido se estiver autenticado
+  // Se estiver autenticado, renderizar o componente filho
   return children;
-};
+}
 
 export default ProtectedRoute;
-

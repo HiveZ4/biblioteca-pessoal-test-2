@@ -74,7 +74,7 @@
   color: #ffffff;
 }
 
-/* Preview da Imagem */
+
 .image-preview {
   margin-top: 1rem;
   max-width: 200px;
@@ -100,7 +100,7 @@
   gap: 1rem;
 }
 
-/* Progress Preview - TEMA PRETO */
+
 .progress-preview {
   background: #0d0d0d;
   padding: 1.5rem;
@@ -119,7 +119,7 @@
 .preview-label {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #ffffff;  /* SEMPRE BRANCO */
+  color: #ffffff;  
 }
 
 .preview-status {
@@ -150,7 +150,7 @@
   margin: 0;
 }
 
-/* Form Actions */
+
 .form-actions {
   display: flex;
   gap: 1rem;
@@ -208,7 +208,7 @@
   cursor: not-allowed;
 }
 
-/* Modo Claro - Labels pretas */
+
 .light-mode .form-card {
   background: #ffffff;
   border-color: #e5e7eb;
@@ -240,7 +240,7 @@
   color: #6b7280;
 }
 
-/* Dark Mode - Labels brancas (padrão) */
+
 .dark-mode .form-card {
   background: #1a1a1a;
   --label-color: #ffffff;
@@ -273,7 +273,58 @@
   background: #1a1a1a;
 }
 
-/* Responsive */
+#authorlab{
+  color: #fafafa;
+  font-size: 0.9rem;
+  margin-top: -10px;
+}
+
+#imagemcover{
+  color: #fafafa;
+  font-size: 0.9rem;
+  margin-top: -10px;
+}
+#totalpages{
+  color: #fafafa;
+  font-size: 0.9rem;
+  margin-top: -10px;
+}
+#paginaatual{
+  color: #fafafa;
+  font-size: 0.9rem;
+  margin-top: -10px;
+}
+#datadepubli{
+  color: #fafafa;
+  font-size: 0.9rem;
+  margin-top: -10px;
+}
+#genero{
+  color: #fafafa;
+  font-size: 0.9rem;
+  margin-top: -10px;
+}
+#datainicio{
+  color: #fafafa;
+  font-size: 0.9rem;
+  margin-top: -10px;
+}
+#dataconcluido{
+  color: #fafafa;
+  font-size: 0.9rem;
+  margin-top: -10px;
+}
+#anotaçao{
+  color: #fafafa;
+  font-size: 0.9rem;
+  margin-top: -10px;
+}
+#titolos{
+  color: #fafafa;
+  font-size: 0.9rem;
+  margin-top: -10px;
+}
+
 @media (max-width: 640px) {
   .form-container {
     padding: 0.5rem;

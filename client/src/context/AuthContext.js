@@ -1,68 +1,72 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
-const AuthContext = createContext();
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth deve ser usado dentro de um AuthProvider');
-  }
-  return context;
-};
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // Verificar se há token salvo no localStorage ao carregar a aplicação
+  // ✅ Verificar se há um usuário logado ao carregar a aplicação
   useEffect(() => {
-    const savedToken = localStorage.getItem('token');
-    const savedUser = localStorage.getItem('user');
-    
-    if (savedToken && savedUser) {
-      setToken(savedToken);
-      setUser(JSON.parse(savedUser));
-    }
-    
-    setLoading(false);
+    const checkAuth = () => {
+      try {
+        const token = localStorage.getItem('token');
+        const storedUser = localStorage.getItem('user');
+
+        if (token && storedUser) {
+          const parsedUser = JSON.parse(storedUser);
+          setUser(parsedUser);
+          setIsAuthenticated(true);
+          console.log('✅ Usuário autenticado:', parsedUser);
+        } else {
+          setIsAuthenticated(false);
+          console.log('❌ Nenhum usuário autenticado');
+        }
+      } catch (error) {
+        console.error('Erro ao verificar autenticação:', error);
+        setIsAuthenticated(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAuth();
   }, []);
 
-  // Função de login
-  const login = (userData, userToken) => {
-    setUser(userData);
-    setToken(userToken);
-    localStorage.setItem('token', userToken);
-    localStorage.setItem('user', JSON.stringify(userData));
-  };
-
-  // Função de logout
+  // ✅ Função de logout
   const logout = () => {
-    setUser(null);
-    setToken(null);
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    setUser(null);
+    setIsAuthenticated(false);
+    console.log('✅ Usuário deslogado');
   };
 
-  // Verificar se o usuário está autenticado
-  const isAuthenticated = () => {
-    return !!token && !!user;
-  };
-
-  // Obter token para requisições
-  const getAuthHeader = () => {
-    return token ? { Authorization: `Bearer ${token}` } : {};
-  };
-
+  // ✅ Valores disponíveis para toda a aplicação
   const value = {
     user,
-    token,
-    loading,
-    login,
-    logout,
+    setUser,
     isAuthenticated,
-    getAuthHeader
+    setIsAuthenticated,
+    loading,
+    logout
   };
+
+  // Não renderizar nada enquanto está verificando a autenticação
+  if (loading) {
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        background: '#1a1a1a'
+      }}>
+        <p style={{ color: '#fff' }}>Carregando...</p>
+      </div>
+    );
+  }
 
   return (
     <AuthContext.Provider value={value}>
@@ -70,4 +74,3 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-

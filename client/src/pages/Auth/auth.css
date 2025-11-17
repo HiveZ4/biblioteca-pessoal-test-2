@@ -3,12 +3,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg,#e1e5e9 #020202 100%);
   padding: 20px;
 }
 
 .auth-card {
-  background: white;
+  background: rgb(255, 255, 255);
   border-radius: 12px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   padding: 40px;
@@ -84,7 +84,7 @@
 }
 
 .auth-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(#000000 100%);
   color: white;
   border: none;
   padding: 14px 20px;
@@ -119,12 +119,7 @@
   font-size: 14px;
 }
 
-.auth-link {
-  color: #667eea;
-  text-decoration: none;
-  font-weight: 500;
-  margin-left: 5px;
-}
+
 
 .auth-link:hover {
   text-decoration: underline;
@@ -153,12 +148,6 @@
   .auth-header h2 {
     font-size: 24px;
   }
-}
-
-/* ===== DARK MODE AUTH STYLES ===== */
-.dark-mode .auth-container {
-  background: var(--gradient-primary, linear-gradient(135deg, #8b9cf7 0%, #9d7cc4 100%));
-  min-height: 100vh;
 }
 
 /* Mantém o card branco no dark mode */
@@ -197,7 +186,7 @@
 }
 
 .dark-mode .auth-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background: linear-gradient(#000000 100%) !important;
   color: white;
   border: none;
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);

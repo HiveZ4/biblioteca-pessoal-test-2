@@ -88,7 +88,7 @@ const AddBook = () => {
         
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="title">Título *</label>
+            <label id='titolos' htmlFor="title">Título *</label>
             <input
               id="title"
               type="text"
@@ -101,7 +101,7 @@ const AddBook = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="author">Autor *</label>
+            <label id='authorlab' htmlFor="author">Autor *</label>
             <input
               id="author"
               type="text"
@@ -114,7 +114,7 @@ const AddBook = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="cover_image">URL da Imagem de Capa</label>
+            <label id='imagemcover' htmlFor="cover_image">URL da Imagem de Capa</label>
             <input
               id="cover_image"
               type="url"
@@ -132,7 +132,7 @@ const AddBook = () => {
 
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="no_of_pages">Total de Páginas *</label>
+              <label id='totalpages' htmlFor="no_of_pages">Total de Páginas *</label>
               <input
                 id="no_of_pages"
                 type="number"
@@ -146,7 +146,7 @@ const AddBook = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="current_page">Página Atual</label>
+              <label id='paginaatual' htmlFor="current_page">Página Atual</label>
               <input
                 id="current_page"
                 type="number"
@@ -161,7 +161,7 @@ const AddBook = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="published_at">Data de Publicação *</label>
+            <label id='datadepubli' htmlFor="published_at">Data de Publicação *</label>
             <input
               id="published_at"
               type="date"
@@ -174,7 +174,7 @@ const AddBook = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="genre">Gênero</label>
+            <label id='genero' htmlFor="genre">Gênero</label>
             <select
               id="genre"
               name="genre"
@@ -205,7 +205,7 @@ const AddBook = () => {
 
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="start_date">Data de Início</label>
+              <label id='datainicio' htmlFor="start_date">Data de Início</label>
               <input
                 id="start_date"
                 type="date"
@@ -217,7 +217,7 @@ const AddBook = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="finish_date">Data de Conclusão</label>
+              <label id='dataconcluido' htmlFor="finish_date">Data de Conclusão</label>
               <input
                 id="finish_date"
                 type="date"
@@ -231,7 +231,7 @@ const AddBook = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="notes">Notas e Anotações</label>
+            <label id='anotaçao' htmlFor="notes">Notas e Anotações</label>
             <textarea
               id="notes"
               name="notes"

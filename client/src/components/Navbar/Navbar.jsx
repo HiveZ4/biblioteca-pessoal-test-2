@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { RiMenu3Line, RiCloseLine } from 'react-icons/ri';
-import { useAuth } from '../../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 import ThemeToggle from '../ThemeToggle/ThemeToggle';
 import logo from '../../assets/logo.png';
 import './navbar.css';
 
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
-  const { user, logout, isAuthenticated } = useAuth();
+  const { user, logout, isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -59,7 +59,7 @@ const Navbar = () => {
           </Link>
         </div>
         <div className='navbar-links_container'>
-          {isAuthenticated() ? <AuthenticatedMenu /> : <UnauthenticatedMenu />}
+          {isAuthenticated ? <AuthenticatedMenu /> : <UnauthenticatedMenu />}
         </div>
       </div>
       <div className='navbar-actions'>
@@ -73,7 +73,7 @@ const Navbar = () => {
           {toggleMenu && (
             <div className='navbar-menu_container scale-up-center'>
               <div className='navbar-menu_container-links'>
-                {isAuthenticated() ? <AuthenticatedMenu /> : <UnauthenticatedMenu />}
+                {isAuthenticated ? <AuthenticatedMenu /> : <UnauthenticatedMenu />}
                 <div className="mobile-theme-toggle">
                   <ThemeToggle />
                 </div>
@@ -87,4 +87,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

@@ -162,8 +162,6 @@ const authController = {
 
   logout: async (req, res) => {
     try {
-      // Em uma implementação completa, você adicionaria o token a uma blacklist
-      // Por enquanto, apenas retornamos sucesso
       res.json({ message: "Logout realizado com sucesso!" });
     } catch (error) {
       console.error("Erro ao fazer logout:", error);
