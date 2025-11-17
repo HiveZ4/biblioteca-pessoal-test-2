@@ -35,12 +35,12 @@
   transform: rotate(15deg);
 }
 
-/* Animação de rotação para transição suave */
+
 .theme-toggle-icon svg {
   transition: all 0.3s ease;
 }
 
-/* Estilos para modo escuro */
+
 .dark-mode .theme-toggle {
   border-color: var(--dark-border-color, #444);
   color: var(--dark-text-color, #fff);
@@ -51,7 +51,7 @@
   border-color: var(--dark-primary-color, #8b9cf7);
 }
 
-/* Responsividade */
+
 @media (max-width: 768px) {
   .theme-toggle {
     width: 40px;
@@ -64,7 +64,7 @@
   }
 }
 
-/* Acessibilidade */
+
 .theme-toggle:focus {
   outline: 2px solid var(--primary-color, #667eea);
   outline-offset: 2px;
@@ -74,7 +74,7 @@
   outline-color: var(--dark-primary-color, #8b9cf7);
 }
 
-/* Animação de entrada */
+
 @keyframes themeToggleIn {
   from {
     opacity: 0;

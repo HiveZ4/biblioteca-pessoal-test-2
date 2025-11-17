@@ -196,7 +196,7 @@
   box-shadow: 0 4px 6px rgba(239, 68, 68, 0.3);
 }
 
-/* Dark Mode */
+
 .dark-mode .progress-container {
   background: var(--card-bg-dark, #1f2937);
   border-color: var(--border-color-dark, #374151);
@@ -232,7 +232,7 @@
   border-top-color: #374151;
 }
 
-/* Responsivo */
+
 @media (max-width: 640px) {
   .progress-container {
     padding: 0.75rem;

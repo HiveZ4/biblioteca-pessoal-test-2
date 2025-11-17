@@ -2,18 +2,18 @@ import axios from 'axios';
 
 const URL = process.env.REACT_APP_API_URL || 'http://localhost:8082';
 
-// Função para obter o token do localStorage
+
 const getAuthToken = () => {
   return localStorage.getItem('token');
 };
 
-// Função para obter headers de autenticação
+
 const getAuthHeaders = () => {
   const token = getAuthToken();
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
-// Interceptor para adicionar token automaticamente
+
 axios.interceptors.request.use(
   (config) => {
     const token = getAuthToken();
@@ -27,12 +27,12 @@ axios.interceptors.request.use(
   }
 );
 
-// Interceptor para lidar com erros de autenticação
+
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401 || error.response?.status === 403) {
-      // Token inválido ou expirado - fazer logout
+      
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       window.location.href = '/login';
@@ -41,7 +41,7 @@ axios.interceptors.response.use(
   }
 );
 
-// ===== FUNÇÕES DE AUTENTICAÇÃO =====
+
 
 export const registerUser = async (userData) => {
   try {
@@ -79,7 +79,7 @@ export const logoutUser = async () => {
   }
 };
 
-// ===== FUNÇÕES DE LIVROS (PROTEGIDAS) =====
+
 
 export const getBooks = async () => {
   try {

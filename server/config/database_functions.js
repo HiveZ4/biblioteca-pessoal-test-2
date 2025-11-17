@@ -1,6 +1,6 @@
-// database_functions.js
 
-const pool = require('../config/gerenciador_livros_database'); // ajuste o caminho se necessário
+
+const pool = require('../config/gerenciador_livros_database'); 
 
 const query = (text, params) => pool.query(text, params);
 

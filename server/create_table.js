@@ -25,7 +25,7 @@ const createTable = async () => {
     await pool.query(createTableQuery);
     console.log("✅ Tabela Book criada com sucesso!");
     
-    // Também criar a tabela com nome minúsculo para compatibilidade
+    
     const createTableQueryLower = `
       CREATE TABLE IF NOT EXISTS books (
         id SERIAL PRIMARY KEY,

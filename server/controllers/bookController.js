@@ -1,21 +1,21 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-// Formatar data para armazenar apenas a data (sem horário)
+
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   date.setHours(0, 0, 0, 0);
   return date;
 };
 
-// Calcular status baseado no progresso
+
 const calculateStatus = (currentPage, totalPages) => {
   if (currentPage === 0) return 'Quero Ler';
   if (currentPage >= totalPages) return 'Lido';
   return 'Lendo';
 };
 
-// Listar livros do usuário
+
 exports.getBooks = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -24,7 +24,7 @@ exports.getBooks = async (req, res) => {
       orderBy: { created_at: 'desc' }
     });
 
-    // Formatar resposta com progresso calculado
+    
     const booksWithProgress = books.map(book => ({
       ...book,
       progress: book.no_of_pages > 0 
@@ -42,7 +42,7 @@ exports.getBooks = async (req, res) => {
   }
 };
 
-// Adicionar novo livro
+
 exports.addBook = async (req, res) => {
   try {
     const { 
@@ -59,7 +59,7 @@ exports.addBook = async (req, res) => {
     } = req.body;
     const userId = req.user.id;
 
-    // Validações
+
     if (!title || !author || !no_of_pages || !published_at) {
       return res.status(400).json({ message: 'Preencha todos os campos obrigatórios' });
     }
@@ -102,7 +102,7 @@ exports.addBook = async (req, res) => {
   }
 };
 
-// Obter livro específico
+
 exports.getBook = async (req, res) => {
   try {
     const { id } = req.params;
@@ -130,7 +130,7 @@ exports.getBook = async (req, res) => {
   }
 };
 
-// Atualizar livro
+
 exports.updateBook = async (req, res) => {
   try {
     const { id } = req.params;
@@ -148,7 +148,7 @@ exports.updateBook = async (req, res) => {
     } = req.body;
     const userId = req.user.id;
 
-    // Verificar se o livro pertence ao usuário
+    
     const existingBook = await prisma.book.findFirst({
       where: { 
         id: parseInt(id),
@@ -160,7 +160,7 @@ exports.updateBook = async (req, res) => {
       return res.status(404).json({ message: 'Livro não encontrado' });
     }
 
-    // Validar página atual
+    
     if (current_page !== undefined && current_page > no_of_pages) {
       return res.status(400).json({ 
         message: 'A página atual não pode ser maior que o total de páginas' 
@@ -200,7 +200,7 @@ exports.updateBook = async (req, res) => {
   }
 };
 
-// Atualizar apenas o progresso de leitura
+
 exports.updateProgress = async (req, res) => {
   try {
     const { id } = req.params;
@@ -245,14 +245,14 @@ exports.updateProgress = async (req, res) => {
   }
 };
 
-// Atualizar avaliação do livro
+
 exports.updateRating = async (req, res) => {
   try {
     const { id } = req.params;
     const { rating } = req.body;
     const userId = req.user.id;
 
-    // Validar rating
+    
     if (rating < 0 || rating > 5) {
       return res.status(400).json({ 
         message: 'A avaliação deve ser entre 0 e 5 estrelas' 
@@ -286,7 +286,7 @@ exports.updateRating = async (req, res) => {
   }
 };
 
-// Deletar livro
+
 exports.deleteBook = async (req, res) => {
   try {
     const { id } = req.params;

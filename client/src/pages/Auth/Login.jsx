@@ -3,14 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Auth.css';
 
-// ✅ IMPORTANTE: Importe seu AuthContext
-// Ajuste o caminho conforme a estrutura do seu projeto
 import { AuthContext } from '../../context/AuthContext';
 
 function Login() {
   const navigate = useNavigate();
   
-  // ✅ CORREÇÃO: Pegar o setUser/setIsAuthenticated do Context
   const { setUser, setIsAuthenticated } = useContext(AuthContext);
   
   const [formData, setFormData] = useState({
@@ -48,17 +45,14 @@ function Login() {
 
       console.log('✅ Login bem-sucedido:', response.data);
 
-      // Salvar no localStorage
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
 
-      // ✅ CORREÇÃO PRINCIPAL: Atualizar o Context IMEDIATAMENTE
       setUser(response.data.user);
       setIsAuthenticated(true);
 
       console.log('✅ Context atualizado, redirecionando...');
 
-      // Redirecionar para a página principal
       navigate('/');
 
     } catch (err) {

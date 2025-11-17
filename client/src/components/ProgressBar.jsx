@@ -37,9 +37,9 @@ const ProgressBar = ({ bookId, currentPage, totalPages, onUpdate }) => {
   };
 
   const getStatusColor = () => {
-    if (progress === 0) return '#9CA3AF'; // Cinza - Quero Ler
-    if (progress === 100) return '#10B981'; // Verde - Lido
-    return '#3B82F6'; // Azul - Lendo
+    if (progress === 0) return '#9CA3AF'; 
+    if (progress === 100) return '#10B981'; 
+    return '#3B82F6'; 
   };
 
   const getStatusText = () => {

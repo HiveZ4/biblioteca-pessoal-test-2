@@ -20,12 +20,12 @@ function App() {
           <div className="App">
             <Navbar />
             <Routes>
-              {/* Rotas públicas */}
+              {}
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               
-              {/* Rotas protegidas */}
+              {}
               <Route 
                 path="/books" 
                 element={
@@ -51,7 +51,7 @@ function App() {
                 } 
               />
               
-              {/* Redirecionar rotas não encontradas */}
+              {}
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </div>

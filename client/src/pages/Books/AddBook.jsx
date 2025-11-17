@@ -32,7 +32,7 @@ const AddBook = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Validações
+    
     if (!formData.title || !formData.author || !formData.no_of_pages || !formData.published_at) {
       alert('Por favor, preencha todos os campos obrigatórios');
       return;
@@ -242,7 +242,7 @@ const AddBook = () => {
             />
           </div>
 
-          {/* Preview do Progresso */}
+          {}
           {formData.no_of_pages && (
             <div className="progress-preview">
               <div className="preview-header">

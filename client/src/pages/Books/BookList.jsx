@@ -173,7 +173,7 @@ const BookList = () => {
 
   return (
     <div className="biblioteca-container">
-      {/* Barra de Busca */}
+      {}
       <div className="search-section">
         <input
           type="text"
@@ -196,7 +196,7 @@ const BookList = () => {
               className="book-cover-card"
               onClick={() => setSelectedBook(book)}
             >
-              {/* Imagem de Capa */}
+              {}
               <div className="book-cover-image">
                 {book.cover_image ? (
                   <img src={book.cover_image} alt={book.title} />
@@ -208,12 +208,12 @@ const BookList = () => {
                 )}
               </div>
 
-              {/* Título e Avaliação */}
+              {}
               <div className="book-cover-info">
                 <h3 className="book-cover-title">{book.title}</h3>
                 <p className="book-cover-author">{book.author}</p>
                 
-                {/* Estrelas */}
+                {}
                 <div className="book-cover-rating">
                   {[1, 2, 3, 4, 5].map(star => (
                     <span
@@ -230,7 +230,7 @@ const BookList = () => {
         </div>
       )}
 
-      {/* Modal de Detalhes */}
+      {}
       {selectedBook && (
         <div className="book-modal-overlay" onClick={() => setSelectedBook(null)}>
           <div className="book-modal" onClick={(e) => e.stopPropagation()}>
@@ -242,7 +242,7 @@ const BookList = () => {
             </button>
 
             <div className="modal-content">
-              {/* Coluna da Imagem */}
+              {}
               <div className="modal-cover">
                 {selectedBook.cover_image ? (
                   <img src={selectedBook.cover_image} alt={selectedBook.title} />
@@ -253,12 +253,12 @@ const BookList = () => {
                 )}
               </div>
 
-              {/* Coluna de Informações */}
+              {}
               <div className="modal-info">
                 <h2>{selectedBook.title}</h2>
                 <p className="modal-author">por {selectedBook.author}</p>
 
-                {/* Avaliação Editável */}
+                {}
                 <div className="modal-rating">
                   <strong>Avaliação:</strong>
                   <div className="stars-editable">
@@ -275,7 +275,7 @@ const BookList = () => {
                   </div>
                 </div>
 
-                {/* Informações Detalhadas */}
+                {}
                 <div className="modal-details">
                   {selectedBook.genre && (
                     <p><strong>🎭 Gênero:</strong> {selectedBook.genre}</p>
@@ -290,7 +290,7 @@ const BookList = () => {
                   )}
                 </div>
 
-                {/* Progresso */}
+                {}
                 <div className="modal-progress">
                   <div className="progress-header-modal">
                     <span 
@@ -330,7 +330,7 @@ const BookList = () => {
                   </div>
                 </div>
 
-                {/* Notas - Editável Inline */}
+                {}
                 <div className="modal-notes">
                   <div className="notes-header-modal">
                     <strong>📝 Notas e Anotações</strong>
@@ -378,7 +378,7 @@ const BookList = () => {
                   )}
                 </div>
 
-                {/* Botões de Ação */}
+                {}
                 <div className="modal-actions">
                   <button
                     className="btn-edit-modal"

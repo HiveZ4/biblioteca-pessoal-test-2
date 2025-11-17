@@ -1,6 +1,5 @@
-/* ===== VARIÁVEIS CSS PARA DARK MODE ===== */
 :root {
-  /* Cores do tema claro */
+  
   --bg-primary: #ffffff;
   --bg-secondary: #f8f9fa;
   --bg-tertiary: #e9ecef;
@@ -11,27 +10,26 @@
   --shadow: rgba(0, 0, 0, 0.1);
   --shadow-hover: rgba(0, 0, 0, 0.15);
   
-  /* Cores de destaque */
+  
   --primary-color: #667eea;
   --primary-hover: #5a6fd8;
   --secondary-color: #764ba2;
   --accent-color: #f093fb;
   
-  /* Cores de status */
+  
   --success-color: #28a745;
   --warning-color: #ffc107;
   --danger-color: #dc3545;
   --info-color: #17a2b8;
   
-  /* Gradientes */
+  
   --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
   --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
 }
 
-/* ===== DARK MODE VARIABLES ===== */
+
 .dark-mode {
-  /* Cores do tema escuro */
   --bg-primary: #1a1a1a;
   --bg-secondary: #2d2d2d;
   --bg-tertiary: #404040;
@@ -42,30 +40,30 @@
   --shadow: rgba(0, 0, 0, 0.3);
   --shadow-hover: rgba(0, 0, 0, 0.4);
   
-  /* Cores de destaque ajustadas para dark mode */
+  
   --primary-color: #8b9cf7;
   --primary-hover: #7c8df5;
   --secondary-color: #9d7cc4;
   --accent-color: #ff9ff3;
   
-  /* Cores de status para dark mode */
+  
   --success-color: #4caf50;
   --warning-color: #ff9800;
   --danger-color: #f44336;
   --info-color: #2196f3;
   
-  /* Gradientes para dark mode */
+  
   --gradient-primary: linear-gradient(135deg, #8b9cf7 0%, #9d7cc4 100%);
   --gradient-secondary: linear-gradient(135deg, #ff9ff3 0%, #ff6b9d 100%);
   --gradient-accent: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%);
 }
 
-/* ===== TRANSIÇÕES GLOBAIS ===== */
+
 * {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* ===== ESTILOS BASE PARA DARK MODE ===== */
+
 .dark-mode body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
@@ -77,7 +75,7 @@
   min-height: 100vh;
 }
 
-/* ===== CARDS E CONTAINERS ===== */
+
 .dark-mode .card,
 .dark-mode .container,
 .dark-mode .form-container {
@@ -90,7 +88,7 @@
   box-shadow: 0 8px 15px var(--shadow-hover);
 }
 
-/* ===== INPUTS E FORMS ===== */
+
 .dark-mode input,
 .dark-mode textarea,
 .dark-mode select {
@@ -111,7 +109,7 @@
   color: var(--text-muted);
 }
 
-/* ===== BOTÕES ===== */
+
 .dark-mode .btn-primary {
   background: var(--gradient-primary);
   border: none;
@@ -143,7 +141,7 @@
   border-color: var(--success-color);
 }
 
-/* ===== NAVBAR DARK MODE ===== */
+
 .dark-mode .navbar {
   background-color: var(--bg-secondary);
   border-bottom: 1px solid var(--border-color);
@@ -168,7 +166,7 @@
   box-shadow: 0 4px 6px var(--shadow);
 }
 
-/* ===== MODAIS E OVERLAYS ===== */
+
 .dark-mode .modal,
 .dark-mode .overlay {
   background-color: var(--bg-secondary);
@@ -179,7 +177,7 @@
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-/* ===== TABELAS ===== */
+
 .dark-mode table {
   background-color: var(--bg-secondary);
   color: var(--text-primary);
@@ -199,7 +197,7 @@
   background-color: var(--bg-tertiary);
 }
 
-/* ===== SCROLLBAR DARK MODE ===== */
+
 .dark-mode ::-webkit-scrollbar {
   width: 8px;
 }
@@ -217,7 +215,7 @@
   background: var(--text-muted);
 }
 
-/* ===== ALERTAS E NOTIFICAÇÕES ===== */
+
 .dark-mode .alert {
   background-color: var(--bg-tertiary);
   border-color: var(--border-color);
@@ -242,7 +240,7 @@
   color: var(--danger-color);
 }
 
-/* ===== LOADING E SPINNERS ===== */
+
 .dark-mode .spinner {
   border-color: var(--border-color);
   border-top-color: var(--primary-color);
@@ -253,7 +251,7 @@
   color: var(--text-secondary);
 }
 
-/* ===== RESPONSIVIDADE DARK MODE ===== */
+
 @media (max-width: 768px) {
   .dark-mode .mobile-theme-toggle {
     padding: 10px 0;
@@ -264,7 +262,7 @@
   }
 }
 
-/* ===== ANIMAÇÕES ESPECÍFICAS DARK MODE ===== */
+
 @keyframes darkModeSlideIn {
   from {
     opacity: 0;
@@ -280,7 +278,7 @@
   animation: darkModeSlideIn 0.3s ease-out;
 }
 
-/* ===== SELEÇÃO DE TEXTO ===== */
+
 .dark-mode ::selection {
   background-color: var(--primary-color);
   color: white;

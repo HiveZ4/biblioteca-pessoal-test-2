@@ -57,7 +57,7 @@
 @media screen and (min-width: 350px) {
 }
 
-/* ===== DARK MODE ADD BOOK STYLES ===== */
+
 .dark-mode .add-book-container {
   background-color: var(--bg-primary, #1a1a1a);
   color: var(--text-primary, #ffffff);
@@ -184,7 +184,7 @@
   border-top-color: var(--primary-color, #8b9cf7);
 }
 
-/* Efeitos visuais específicos para dark mode */
+
 .dark-mode .add-book-form::before {
   content: '';
   position: absolute;
@@ -203,7 +203,7 @@
   opacity: 0.05;
 }
 
-/* Animações para dark mode */
+
 .dark-mode .add-book-form {
   animation: darkModeFormSlideIn 0.5s ease-out;
 }

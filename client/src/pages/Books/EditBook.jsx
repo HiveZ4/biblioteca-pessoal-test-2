@@ -97,7 +97,7 @@ const EditBook = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       
-      // ✅ Navega direto sem alert
+      
       navigate('/books');
     } catch (error) {
       console.error('Erro ao atualizar livro:', error);

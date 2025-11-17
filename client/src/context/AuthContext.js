@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Verificar se há um usuário logado ao carregar a aplicação
+  
   useEffect(() => {
     const checkAuth = () => {
       try {
@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, []);
 
-  // ✅ Função de logout
+  
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
     console.log('✅ Usuário deslogado');
   };
 
-  // ✅ Valores disponíveis para toda a aplicação
+  
   const value = {
     user,
     setUser,
@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }) => {
     logout
   };
 
-  // Não renderizar nada enquanto está verificando a autenticação
+  
   if (loading) {
     return (
       <div style={{

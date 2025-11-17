@@ -103,7 +103,7 @@
   background-color: #45a049;
 }
 
-/* Estilos para autenticação na home */
+
 .hero__subtitle {
   font-size: 1.2rem;
   color: #666;
@@ -141,7 +141,7 @@
   color: white;
 }
 
-/* Seção de recursos */
+
 .home-features {
   padding: 4rem 2rem;
   max-width: 1200px;
@@ -191,7 +191,7 @@
   line-height: 1.6;
 }
 
-/* Responsividade */
+
 @media (max-width: 768px) {
   .auth-buttons {
     flex-direction: column;
@@ -217,7 +217,7 @@
 }
 
 
-/* ===== DARK MODE HOME STYLES ===== */
+
 .dark-mode .home {
   background-color: var(--bg-primary, #1a1a1a);
   color: var(--text-primary, #ffffff);
@@ -341,7 +341,7 @@
   transform: translateY(-1px);
 }
 
-/* Animações específicas para dark mode */
+
 .dark-mode .fade-in-up {
   animation: darkModeFadeInUp 0.6s ease-out;
 }

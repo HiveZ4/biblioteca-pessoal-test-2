@@ -2,10 +2,10 @@ const jwt = require('jsonwebtoken');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
-// Middleware para verificar token JWT
+
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+  const token = authHeader && authHeader.split(' ')[1]; 
 
   if (!token) {
     return res.status(401).json({ message: 'Token de acesso requerido' });
@@ -16,12 +16,12 @@ const authenticateToken = (req, res, next) => {
       return res.status(403).json({ message: 'Token inválido ou expirado' });
     }
     
-    req.user = user; // Adiciona informações do usuário à requisição
+    req.user = user; 
     next();
   });
 };
 
-// Função para gerar token JWT
+
 const generateToken = (user) => {
   return jwt.sign(
     { 
@@ -30,11 +30,11 @@ const generateToken = (user) => {
       email: user.email 
     },
     JWT_SECRET,
-    { expiresIn: '24h' } // Token expira em 24 horas
+    { expiresIn: '24h' } 
   );
 };
 
-// Função para gerar refresh token (opcional, para implementação futura)
+
 const generateRefreshToken = (user) => {
   return jwt.sign(
     { 
@@ -42,7 +42,7 @@ const generateRefreshToken = (user) => {
       username: user.username 
     },
     JWT_SECRET + '_refresh',
-    { expiresIn: '7d' } // Refresh token expira em 7 dias
+    { expiresIn: '7d' } 
   );
 };
 

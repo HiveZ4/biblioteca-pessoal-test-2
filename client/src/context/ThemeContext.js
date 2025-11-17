@@ -13,7 +13,7 @@ export const useTheme = () => {
 export const ThemeProvider = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Verificar se há preferência salva no localStorage ao carregar a aplicação
+  
   useEffect(() => {
     const savedTheme = localStorage.getItem('darkMode');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -25,7 +25,7 @@ export const ThemeProvider = ({ children }) => {
     }
   }, []);
 
-  // Aplicar a classe dark no body quando o tema mudar
+  
   useEffect(() => {
     if (isDarkMode) {
       document.body.classList.add('dark-mode');
@@ -34,14 +34,14 @@ export const ThemeProvider = ({ children }) => {
     }
   }, [isDarkMode]);
 
-  // Função para alternar entre os temas
+  
   const toggleTheme = () => {
     const newTheme = !isDarkMode;
     setIsDarkMode(newTheme);
     localStorage.setItem('darkMode', newTheme.toString());
   };
 
-  // Função para definir tema específico
+  
   const setTheme = (dark) => {
     setIsDarkMode(dark);
     localStorage.setItem('darkMode', dark.toString());

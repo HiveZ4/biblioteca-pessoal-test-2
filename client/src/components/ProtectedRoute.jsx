@@ -3,10 +3,10 @@ import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 function ProtectedRoute({ children }) {
-  // ✅ CORRIGIDO: Usar useContext ao invés de useAuth
+
   const { isAuthenticated, loading } = useContext(AuthContext);
 
-  // Mostrar loading enquanto verifica autenticação
+  
   if (loading) {
     return (
       <div style={{
@@ -21,12 +21,12 @@ function ProtectedRoute({ children }) {
     );
   }
 
-  // Se não estiver autenticado, redirecionar para login
+  
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
-  // Se estiver autenticado, renderizar o componente filho
+  
   return children;
 }
 

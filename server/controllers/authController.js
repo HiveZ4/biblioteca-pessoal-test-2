@@ -6,19 +6,19 @@ const prisma = new PrismaClient();
 
 const authController = {
   
-  // POST /api/auth/register - Registrar novo usuário
+  
   register: async (req, res) => {
     try {
       const { username, email, password } = req.body;
 
-      // Validação dos campos obrigatórios
+      
       if (!username || !email || !password) {
         return res.status(400).json({ 
           message: "Por favor, preencha todos os campos obrigatórios!" 
         });
       }
 
-      // Validação do email
+      
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
         return res.status(400).json({ 
@@ -26,14 +26,14 @@ const authController = {
         });
       }
 
-      // Validação da senha
+      
       if (password.length < 6) {
         return res.status(400).json({ 
           message: "A senha deve ter pelo menos 6 caracteres!" 
         });
       }
 
-      // Verificar se o usuário já existe
+      
       const existingUser = await prisma.user.findFirst({
         where: {
           OR: [
@@ -49,11 +49,11 @@ const authController = {
         });
       }
 
-      // Criptografar a senha
+      
       const saltRounds = 10;
       const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-      // Criar novo usuário
+      
       const newUser = await prisma.user.create({
         data: {
           username,
@@ -130,7 +130,7 @@ const authController = {
     }
   },
 
-  // GET /api/auth/me - Obter informações do usuário logado
+  
   getProfile: async (req, res) => {
     try {
       const userId = req.user.id;
