@@ -245,3 +245,7 @@
   font-size: 0.9rem;
   margin-top: -10px;
 }
+
+.dark-mode .auth-form .form-group label {
+  color: #161515 !important;
+}

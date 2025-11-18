@@ -342,3 +342,11 @@
     flex-direction: column;
   }
 }
+
+.dark-mode .form-group label {
+  color: #ffffff !important;
+}
+
+.light-mode .form-group label {
+  color: #1f2937 !important;
+}
